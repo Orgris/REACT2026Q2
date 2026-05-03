@@ -1,6 +1,9 @@
 import './App.css';
 import { ErrorBoundary } from './components/error-boundary';
 import { Hero } from './components/hero';
+import { SearchForm } from './components/search-form';
+import { ErrorButton } from './components/ui/error-button';
+import { Search } from './components/search';
 import React from 'react';
 
 class App extends React.Component {
@@ -9,7 +12,13 @@ class App extends React.Component {
       <ErrorBoundary>
         <Hero />
 
-        <footer className="rounded-t-lg border border-b-0 border-[var(--border)] bg-[var(--bg)] p-3"></footer>
+        <Search>
+          <SearchForm />
+        </Search>
+
+        <footer className="rounded-t-lg border border-b-0 border-[var(--border)] bg-[var(--bg)] p-3">
+          <ErrorButton />
+        </footer>
       </ErrorBoundary>
     );
   }
