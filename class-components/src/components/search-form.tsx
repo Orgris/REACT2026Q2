@@ -6,6 +6,7 @@ type SearchFormProps = Record<string, never>;
 
 type SearchFormState = {
   searchString: string;
+  lastSearch: string;
 };
 
 export class SearchForm extends React.Component<
@@ -17,18 +18,25 @@ export class SearchForm extends React.Component<
 
     this.state = {
       searchString: '',
+      lastSearch: '',
     };
   }
 
   handleSubmit = (event: React.SubmitEvent) => {
     event.preventDefault();
-    this.setState({ searchString: this.state.searchString.trim() });
-    localStorage.setItem('searchString', this.state.searchString);
+
+    if (this.state.searchString === this.state.lastSearch) {
+      return;
+    }
+
+    const trimmedSearch = this.state.searchString.trim();
+    this.setState({ searchString: trimmedSearch, lastSearch: trimmedSearch });
+    localStorage.setItem('searchString', trimmedSearch);
   };
 
   componentDidMount(): void {
-    const savedSearch = localStorage.getItem('searchString') ?? '';
-    this.setState({ searchString: savedSearch });
+    const lastSearch = localStorage.getItem('searchString') ?? '';
+    this.setState({ searchString: lastSearch, lastSearch: lastSearch });
   }
 
   render(): React.ReactNode {
