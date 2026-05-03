@@ -10,7 +10,7 @@ export class Hero extends React.Component {
               RS School
             </span>
             <span
-              className="pl-5 text-[var(--rss)]"
+              className="pl-5 text-[var(--rss)] [-webkit-text-stroke:6px_#3264AF] [paint-order:stroke_fill] [text-stroke:6px_#3264AF]"
               style={{ fontFamily: 'Pokemon Solid' }}
             >
               Pokédex
