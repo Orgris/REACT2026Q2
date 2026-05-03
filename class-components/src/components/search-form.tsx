@@ -20,13 +20,26 @@ export class SearchForm extends React.Component<
     };
   }
 
+  handleSubmit = (event: React.SubmitEvent) => {
+    event.preventDefault();
+    this.setState({ searchString: this.state.searchString.trim() });
+    localStorage.setItem('searchString', this.state.searchString);
+  };
+
+  componentDidMount(): void {
+    const savedSearch = localStorage.getItem('searchString') ?? '';
+    this.setState({ searchString: savedSearch });
+  }
+
   render(): React.ReactNode {
     return (
-      <form className="flex gap-3">
+      <form className="flex gap-3" onSubmit={this.handleSubmit}>
         <input
           className="flex-1 rounded-lg border-2 border-[var(--border)] px-3 py-1 transition-colors hover:border-[var(--accent-border)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
           type="search"
           placeholder="Search Input Field"
+          value={this.state.searchString}
+          onChange={(e) => this.setState({ searchString: e.target.value })}
         />
         <Button
           className="bg-red-400 hover:border-red-500 hover:bg-red-500"
