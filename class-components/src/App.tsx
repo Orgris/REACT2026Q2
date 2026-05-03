@@ -1,4 +1,3 @@
-import './App.css';
 import { ErrorBoundary } from './components/error-boundary';
 import { Hero } from './components/hero';
 import { SearchForm } from './components/search-form';
