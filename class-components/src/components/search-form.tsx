@@ -5,8 +5,8 @@ import PokeballIcon from '../assets/pokeball.svg?react';
 type SearchFormProps = Record<string, never>;
 
 type SearchFormState = {
-  searchString: string;
-  lastSearch: string;
+  query: string;
+  lastQuery: string;
 };
 
 export class SearchForm extends React.Component<
@@ -17,26 +17,26 @@ export class SearchForm extends React.Component<
     super(props);
 
     this.state = {
-      searchString: '',
-      lastSearch: '',
+      query: '',
+      lastQuery: '',
     };
   }
 
   handleSubmit = (event: React.SubmitEvent) => {
     event.preventDefault();
 
-    if (this.state.searchString === this.state.lastSearch) {
+    if (this.state.query === this.state.lastQuery) {
       return;
     }
 
-    const trimmedSearch = this.state.searchString.trim();
-    this.setState({ searchString: trimmedSearch, lastSearch: trimmedSearch });
+    const trimmedSearch = this.state.query.trim();
+    this.setState({ query: trimmedSearch, lastQuery: trimmedSearch });
     localStorage.setItem('searchString', trimmedSearch);
   };
 
   componentDidMount(): void {
     const lastSearch = localStorage.getItem('searchString') ?? '';
-    this.setState({ searchString: lastSearch, lastSearch: lastSearch });
+    this.setState({ query: lastSearch, lastQuery: lastSearch });
   }
 
   render(): React.ReactNode {
@@ -46,8 +46,8 @@ export class SearchForm extends React.Component<
           className="flex-1 rounded-lg border-2 border-[var(--border)] px-3 py-1 transition-colors hover:border-[var(--accent-border)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
           type="search"
           placeholder="Search Input Field"
-          value={this.state.searchString}
-          onChange={(e) => this.setState({ searchString: e.target.value })}
+          value={this.state.query}
+          onChange={(e) => this.setState({ query: e.target.value })}
         />
         <Button
           className="bg-red-400 hover:border-red-500 hover:bg-red-500"
