@@ -2,7 +2,9 @@ import React from 'react';
 import { Button } from './ui/button';
 import PokeballIcon from '../assets/pokeball.svg?react';
 
-type SearchFormProps = Record<string, never>;
+type SearchFormProps = {
+  onSearchChange: (value: string) => void;
+};
 
 type SearchFormState = {
   query: string;
@@ -17,8 +19,8 @@ export class SearchForm extends React.Component<
     super(props);
 
     this.state = {
-      query: '',
-      lastQuery: '',
+      query: localStorage.getItem('searchString') ?? '',
+      lastQuery: localStorage.getItem('searchString') ?? '',
     };
   }
 
@@ -32,12 +34,9 @@ export class SearchForm extends React.Component<
     const trimmedSearch = this.state.query.trim();
     this.setState({ query: trimmedSearch, lastQuery: trimmedSearch });
     localStorage.setItem('searchString', trimmedSearch);
-  };
 
-  componentDidMount(): void {
-    const lastSearch = localStorage.getItem('searchString') ?? '';
-    this.setState({ query: lastSearch, lastQuery: lastSearch });
-  }
+    this.props.onSearchChange(trimmedSearch);
+  };
 
   render(): React.ReactNode {
     return (
