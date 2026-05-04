@@ -43,9 +43,9 @@ export class SearchForm extends React.Component<
     return (
       <form className="flex gap-3" onSubmit={this.handleSubmit}>
         <input
-          className="flex-1 rounded-lg border-2 border-[var(--border)] px-3 py-1 transition-colors hover:border-[var(--accent-border)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+          className="flex-1 rounded-lg border-2 border-[var(--border)] bg-[var(--border)] px-3 py-1 transition-colors hover:border-[var(--accent-border)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
           type="search"
-          placeholder="Search Input Field"
+          placeholder="Who's that Pokémon?"
           value={this.state.query}
           onChange={(e) => this.setState({ query: e.target.value })}
         />
@@ -53,7 +53,7 @@ export class SearchForm extends React.Component<
           className="bg-red-400 hover:border-red-500 hover:bg-red-500"
           type="submit"
         >
-          <PokeballIcon className="w-6 scale-130" />
+          <PokeballIcon className="w-6 scale-130 text-[white]" />
         </Button>
       </form>
     );
