@@ -6,7 +6,7 @@ type ErrorBoundaryProps = {
 };
 
 type ErrorBoundaryState = {
-  hasErrorOccured: boolean;
+  hasErrorOccurred: boolean;
   errorMessage: string;
 };
 
@@ -18,24 +18,24 @@ export class ErrorBoundary extends React.Component<
     super(props);
 
     this.state = {
-      hasErrorOccured: false,
+      hasErrorOccurred: false,
       errorMessage: '',
     };
   }
 
-  static getDerivedStateFromError() {
+  static getDerivedStateFromError(error: Error) {
     return {
-      hasErrorOccured: true,
-      errorMessage: 'Oops! Something went wrong',
+      hasErrorOccurred: true,
+      errorMessage: error.message || 'Something went wrong',
     };
   }
 
   componentDidCatch(error: Error): void {
-    console.log(error);
+    console.error('ErrorBoundary error:', error);
   }
 
   render(): ReactNode {
-    return this.state.hasErrorOccured ? (
+    return this.state.hasErrorOccurred ? (
       <Fallback errorMessage={this.state.errorMessage} />
     ) : (
       this.props.children
