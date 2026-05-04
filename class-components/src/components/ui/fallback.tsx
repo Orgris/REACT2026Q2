@@ -16,7 +16,7 @@ export class Fallback extends React.Component<FallbackProps> {
         <p className="text-2xl font-bold text-[var(--text-h)]">
           {this.props.errorMessage}
         </p>
-        <p>Please try again later</p>
+        <p>Please try again later or refresh the page</p>
         <Button onClick={this.handleRefresh}>Refresh</Button>
       </div>
     );
