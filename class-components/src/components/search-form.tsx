@@ -40,8 +40,13 @@ export class SearchForm extends React.Component<
 
   render(): React.ReactNode {
     return (
-      <form className="flex gap-3" onSubmit={this.handleSubmit}>
+      <form
+        data-testid="search-form"
+        className="flex gap-3"
+        onSubmit={this.handleSubmit}
+      >
         <input
+          data-testid="search-input"
           className="flex-1 rounded-lg border-2 border-[var(--border)] bg-[var(--border)] px-3 py-1 transition-colors hover:border-[var(--accent-border)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
           type="search"
           placeholder="Who's that Pokémon?"
@@ -51,6 +56,7 @@ export class SearchForm extends React.Component<
         <Button
           className="bg-red-400 hover:border-red-500 hover:bg-red-500"
           type="submit"
+          data-testid="submit-button"
         >
           <PokeballIcon className="w-6 scale-130 text-[white]" />
         </Button>
