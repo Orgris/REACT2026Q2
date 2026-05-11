@@ -3,7 +3,10 @@ import React from 'react';
 export class Hero extends React.Component {
   render(): React.ReactNode {
     return (
-      <section className="rounded-b-lg border border-t-0 border-[var(--border)] bg-[var(--bg)] p-6 lg:p-8">
+      <section
+        data-testid="hero"
+        className="rounded-b-lg border border-t-0 border-[var(--border)] bg-[var(--bg)] p-6 lg:p-8"
+      >
         <div>
           <h1>
             <span className="bg-[var(--rss)] px-5 font-extrabold text-[var(--rss-text)]">
