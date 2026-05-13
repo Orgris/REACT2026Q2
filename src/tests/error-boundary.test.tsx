@@ -21,7 +21,9 @@ describe('ErrorBoundary', () => {
 
     await user.click(screen.getByRole('button'));
 
-    expect(screen.getByTestId('fallback')).toBeInTheDocument();
+    expect(
+      screen.getByText('Please try again later or refresh the page')
+    ).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: /refresh/i })
     ).toBeInTheDocument();

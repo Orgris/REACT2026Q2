@@ -18,7 +18,9 @@ describe('SearchForm', () => {
     render(<SearchForm onSearchChange={onSearchChange} />);
 
     expect(screen.getByTestId('search-form')).toBeInTheDocument();
-    expect(screen.getByTestId('search-input')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Who's that Pokémon?")
+    ).toBeInTheDocument();
     expect(screen.getByTestId('submit-button')).toBeInTheDocument();
   });
 

@@ -14,11 +14,13 @@ describe('App', () => {
   it('should render main layout sections', () => {
     render(<App />);
 
-    expect(screen.getByTestId('hero')).toBeInTheDocument();
-    expect(screen.getByTestId('search')).toBeInTheDocument();
-    expect(screen.getByTestId('search-form')).toBeInTheDocument();
+    expect(screen.getByText('RS School')).toBeInTheDocument();
+    expect(screen.getByText('Search your Pokémon!')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Who's that Pokémon?")
+    ).toBeInTheDocument();
     expect(screen.getByTestId('card-list')).toBeInTheDocument();
-    expect(screen.getByTestId('error-btn')).toBeInTheDocument();
+    expect(screen.getByText('Click me!')).toBeInTheDocument();
   });
 
   it('should initialize query from localStorage', () => {
