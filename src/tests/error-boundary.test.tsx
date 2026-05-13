@@ -22,24 +22,11 @@ describe('ErrorBoundary', () => {
     await user.click(screen.getByRole('button'));
 
     expect(screen.getByTestId('fallback')).toBeInTheDocument();
-
-    consoleErrorSpy.mockRestore();
-  });
-
-  it('displays fallback UI when error occurs', async () => {
-    const user = userEvent.setup();
-
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    render(errorBoundary);
-
-    await user.click(screen.getByRole('button'));
-
-    expect(screen.getByTestId('fallback')).toBeInTheDocument();
-
     expect(
       screen.getByRole('button', { name: /refresh/i })
     ).toBeInTheDocument();
+
+    consoleErrorSpy.mockRestore();
   });
 
   it('logs error to console', async () => {
