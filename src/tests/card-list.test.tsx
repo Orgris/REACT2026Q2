@@ -12,9 +12,13 @@ const mockedFetchPokemonList = vi.mocked(fetchPokemonList);
 
 describe('CardList', () => {
   it('renders', async () => {
+    mockedFetchPokemonList.mockResolvedValue([]);
+
     render(<CardList query="pikachu" />);
 
-    expect(screen.getByTestId('card-list')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId('card-list')).toBeInTheDocument();
+    });
   });
 
   it('calls fetch on mount', async () => {
@@ -53,7 +57,8 @@ describe('CardList', () => {
     render(<CardList query="test" />);
 
     await waitFor(() => {
-      expect(screen.getAllByTestId('card')).toHaveLength(2);
+      expect(screen.getByText('pikachu')).toBeInTheDocument();
+      expect(screen.getByText('psyduck')).toBeInTheDocument();
     });
   });
 
