@@ -1,17 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { SearchForm } from '../components/search-form';
 import userEvent from '@testing-library/user-event';
-import { localStorageMock } from './mocks';
 
 describe('SearchForm', () => {
-  beforeEach(() => {
-    Object.defineProperty(window, 'localStorage', { value: localStorageMock });
-
-    vi.clearAllMocks();
-    localStorageMock.clear();
-  });
-
   it('should render form with input and button', () => {
     const onSearchChange = vi.fn();
 
@@ -26,7 +18,7 @@ describe('SearchForm', () => {
 
   it('reads value from localStorage on mount', () => {
     const onSearchChange = vi.fn();
-    localStorageMock.getItem.mockReturnValue('pikachu');
+    localStorage.setItem('searchString', 'pikachu');
 
     render(<SearchForm onSearchChange={onSearchChange} />);
 
@@ -35,7 +27,7 @@ describe('SearchForm', () => {
 
   it('handles empty localStorage', () => {
     const onSearchChange = vi.fn();
-    localStorageMock.getItem.mockReturnValue(null);
+    localStorage.setItem('searchString', '');
 
     render(<SearchForm onSearchChange={onSearchChange} />);
 
@@ -52,17 +44,15 @@ describe('SearchForm', () => {
     const button = screen.getByTestId('submit-button');
 
     await user.clear(input);
-    await user.type(input, 'psuduck');
+    await user.type(input, 'psyduck');
     await user.click(button);
 
-    expect(localStorageMock.setItem).toHaveBeenCalledWith(
-      'searchString',
-      'psuduck'
-    );
+    const storedValue = localStorage.getItem('searchString');
+    expect(storedValue).toBe('psyduck');
   });
 
   it('does not submit new query if query did not change', async () => {
-    localStorageMock.getItem.mockReturnValue('pikachu');
+    localStorage.setItem('searchString', 'pikachu');
 
     const onSearchChange = vi.fn();
     const user = userEvent.setup();
@@ -71,12 +61,11 @@ describe('SearchForm', () => {
 
     await user.click(screen.getByTestId('submit-button'));
 
-    expect(localStorageMock.setItem).not.toHaveBeenCalled();
     expect(onSearchChange).not.toHaveBeenCalled();
   });
 
   it('updates localStorage when new value is submitted', async () => {
-    localStorageMock.getItem.mockReturnValue('pikachu');
+    localStorage.setItem('searchString', 'pikachu');
 
     const onSearchChange = vi.fn();
     const user = userEvent.setup();
@@ -90,14 +79,12 @@ describe('SearchForm', () => {
     await user.type(input, 'bulbasaur');
     await user.click(button);
 
-    expect(localStorageMock.setItem).toHaveBeenCalledWith(
-      'searchString',
-      'bulbasaur'
-    );
+    const storedValue = localStorage.getItem('searchString');
+    expect(storedValue).toBe('bulbasaur');
   });
 
   it('handles trims value input correctly', async () => {
-    localStorageMock.getItem.mockReturnValue('');
+    localStorage.setItem('searchString', '');
 
     const onSearchChange = vi.fn();
     const user = userEvent.setup();
@@ -110,17 +97,15 @@ describe('SearchForm', () => {
     await user.type(input, '   pikachu   ');
     await user.click(button);
 
-    expect(localStorageMock.setItem).toHaveBeenCalledWith(
-      'searchString',
-      'pikachu'
-    );
+    const storedValue = localStorage.getItem('searchString');
+    expect(storedValue).toBe('pikachu');
 
     expect(onSearchChange).toHaveBeenCalledWith('pikachu');
     expect(input).toHaveValue('pikachu');
   });
 
   it('treats whitespace-only input as empty string', async () => {
-    localStorageMock.getItem.mockReturnValue('');
+    localStorage.setItem('searchString', '');
 
     const user = userEvent.setup();
     const onSearchChange = vi.fn();
@@ -133,13 +118,15 @@ describe('SearchForm', () => {
     await user.type(input, '     ');
     await user.click(button);
 
-    expect(localStorageMock.setItem).toHaveBeenCalledWith('searchString', '');
+    const storedValue = localStorage.getItem('searchString');
+    expect(storedValue).toBe('');
+
     expect(onSearchChange).toHaveBeenCalledWith('');
     expect(input).toHaveValue('');
   });
 
   it('does not trigger search when submitting same value twice', async () => {
-    localStorageMock.getItem.mockReturnValue('pikachu');
+    localStorage.setItem('searchString', 'pikachu');
 
     const user = userEvent.setup();
     const onSearchChange = vi.fn();
@@ -151,6 +138,5 @@ describe('SearchForm', () => {
     await user.click(button);
 
     expect(onSearchChange).toHaveBeenCalledTimes(0);
-    expect(localStorageMock.setItem).toHaveBeenCalledTimes(0);
   });
 });

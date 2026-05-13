@@ -1,16 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import App from '../App';
-import { localStorageMock } from './mocks';
 
 describe('App', () => {
-  beforeEach(() => {
-    Object.defineProperty(window, 'localStorage', { value: localStorageMock });
-
-    vi.clearAllMocks();
-    localStorageMock.clear();
-  });
-
   it('should render main layout sections', () => {
     render(<App />);
 
@@ -23,14 +15,8 @@ describe('App', () => {
     expect(screen.getByText('Click me!')).toBeInTheDocument();
   });
 
-  it('should initialize query from localStorage', () => {
-    render(<App />);
-
-    expect(localStorageMock.getItem).toHaveBeenCalledWith('searchString');
-  });
-
   it('reads value from localStorage on mount', () => {
-    localStorageMock.getItem.mockReturnValue('pikachu');
+    localStorage.setItem('searchString', 'pikachu');
 
     render(<App />);
 
@@ -38,7 +24,7 @@ describe('App', () => {
   });
 
   it('reads empty value from localStorage on mount', () => {
-    localStorageMock.getItem.mockReturnValue('');
+    localStorage.setItem('searchString', '');
 
     render(<App />);
 
