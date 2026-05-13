@@ -1,21 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Pokemon } from '../api/search-api-types';
 import { Card } from '../components/card';
-
-const mockPokemon: Pokemon = {
-  id: 1,
-  order: 1,
-  name: 'pikachu',
-  sprites: {
-    front_default: 'front.png',
-    other: {
-      showdown: {
-        front_default: 'showdown.png',
-      },
-    },
-  },
-  description: 'pokemon description',
-};
+import { mockPokemon } from './mocks';
 
 describe('Card', () => {
   test('renders pokemon info', () => {

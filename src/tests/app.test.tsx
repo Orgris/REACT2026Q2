@@ -1,21 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import App from '../App';
-
-const store: Record<string, string | null> = {};
-
-export const localStorageMock = {
-  getItem: vi.fn((key: string) => store[key] ?? null),
-  setItem: vi.fn((key: string, value: string) => {
-    store[key] = value;
-  }),
-  removeItem: vi.fn((key: string) => {
-    delete store[key];
-  }),
-  clear: vi.fn(() => {
-    Object.keys(store).forEach((key) => delete store[key]);
-  }),
-};
+import { localStorageMock } from './mocks';
 
 describe('App', () => {
   beforeEach(() => {

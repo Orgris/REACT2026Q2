@@ -1,23 +1,8 @@
 import { vi } from 'vitest';
-import type { Pokemon } from '../api/search-api-types';
 import { screen, render, waitFor } from '@testing-library/react';
 import { CardList } from '../components/card-list';
 import { fetchPokemonList } from '../api/search-api';
-
-const mockPokemon: Pokemon = {
-  id: 1,
-  order: 1,
-  name: 'pikachu',
-  sprites: {
-    front_default: 'front.png',
-    other: {
-      showdown: {
-        front_default: 'showdown.png',
-      },
-    },
-  },
-  description: 'pokemon description',
-};
+import { mockPokemon } from './mocks';
 
 vi.mock('../api/search-api', () => ({
   fetchPokemonList: vi.fn(),
@@ -32,7 +17,7 @@ describe('CardList', () => {
     expect(screen.getByTestId('card-list')).toBeInTheDocument();
   });
 
-  it('renders pokemon card on mount', async () => {
+  it('calls fetch on mount', async () => {
     mockedFetchPokemonList.mockResolvedValue([mockPokemon]);
 
     render(<CardList query="pikachu" />);
