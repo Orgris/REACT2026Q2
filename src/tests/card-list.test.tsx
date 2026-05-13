@@ -2,7 +2,7 @@ import { vi } from 'vitest';
 import { screen, render, waitFor } from '@testing-library/react';
 import { CardList } from '../components/card-list';
 import { fetchPokemonList } from '../api/search-api';
-import { mockPokemon } from './mocks';
+import { mockPokemon, mockPokemon2 } from './mocks';
 
 vi.mock('../api/search-api', () => ({
   fetchPokemonList: vi.fn(),
@@ -48,7 +48,7 @@ describe('CardList', () => {
   });
 
   it('renders correct number of cards', async () => {
-    mockedFetchPokemonList.mockResolvedValue([mockPokemon, mockPokemon]);
+    mockedFetchPokemonList.mockResolvedValue([mockPokemon, mockPokemon2]);
 
     render(<CardList query="test" />);
 

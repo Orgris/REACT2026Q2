@@ -37,3 +37,18 @@ export const mockPokemon: Pokemon = {
   },
   description: 'pokemon description',
 };
+
+export const mockPokemon2: Pokemon = {
+  id: 2,
+  order: 2,
+  name: 'psyduck',
+  sprites: {
+    front_default: 'front.png',
+    other: {
+      showdown: {
+        front_default: 'showdown.png',
+      },
+    },
+  },
+  description: 'psyduck description',
+};
