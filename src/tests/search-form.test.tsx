@@ -4,10 +4,15 @@ import { SearchForm } from '../components/search-form';
 import userEvent from '@testing-library/user-event';
 
 describe('SearchForm', () => {
-  it('should render form with input and button', () => {
-    const onSearchChange = vi.fn();
+  const onSearchChange = vi.fn();
+  const user = userEvent.setup();
 
-    render(<SearchForm onSearchChange={onSearchChange} />);
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('should render form with input and button', () => {
+    render(<SearchForm onSearchChange={onSearchChange} query={''} />);
 
     expect(screen.getByTestId('search-form')).toBeInTheDocument();
     expect(
@@ -16,29 +21,16 @@ describe('SearchForm', () => {
     expect(screen.getByTestId('submit-button')).toBeInTheDocument();
   });
 
-  it('reads value from localStorage on mount', () => {
-    const onSearchChange = vi.fn();
+  it('handles query', () => {
     localStorage.setItem('searchString', 'pikachu');
 
-    render(<SearchForm onSearchChange={onSearchChange} />);
+    render(<SearchForm onSearchChange={onSearchChange} query={'pikachu'} />);
 
     expect(screen.getByTestId('search-input')).toHaveValue('pikachu');
   });
 
-  it('handles empty localStorage', () => {
-    const onSearchChange = vi.fn();
-    localStorage.setItem('searchString', '');
-
-    render(<SearchForm onSearchChange={onSearchChange} />);
-
-    expect(screen.getByTestId('search-input')).toHaveValue('');
-  });
-
   it('writes value to localStorage after submit', async () => {
-    const onSearchChange = vi.fn();
-    const user = userEvent.setup();
-
-    render(<SearchForm onSearchChange={onSearchChange} />);
+    render(<SearchForm onSearchChange={onSearchChange} query={'pikachu'} />);
 
     const input = screen.getByTestId('search-input');
     const button = screen.getByTestId('submit-button');
@@ -54,10 +46,7 @@ describe('SearchForm', () => {
   it('does not submit new query if query did not change', async () => {
     localStorage.setItem('searchString', 'pikachu');
 
-    const onSearchChange = vi.fn();
-    const user = userEvent.setup();
-
-    render(<SearchForm onSearchChange={onSearchChange} />);
+    render(<SearchForm onSearchChange={onSearchChange} query={'pikachu'} />);
 
     await user.click(screen.getByTestId('submit-button'));
 
@@ -65,12 +54,7 @@ describe('SearchForm', () => {
   });
 
   it('updates localStorage when new value is submitted', async () => {
-    localStorage.setItem('searchString', 'pikachu');
-
-    const onSearchChange = vi.fn();
-    const user = userEvent.setup();
-
-    render(<SearchForm onSearchChange={onSearchChange} />);
+    render(<SearchForm onSearchChange={onSearchChange} query={'pikachu'} />);
 
     const input = screen.getByTestId('search-input');
     const button = screen.getByTestId('submit-button');
@@ -86,10 +70,7 @@ describe('SearchForm', () => {
   it('handles trims value input correctly', async () => {
     localStorage.setItem('searchString', '');
 
-    const onSearchChange = vi.fn();
-    const user = userEvent.setup();
-
-    render(<SearchForm onSearchChange={onSearchChange} />);
+    render(<SearchForm onSearchChange={onSearchChange} query={''} />);
 
     const input = screen.getByTestId('search-input');
     const button = screen.getByTestId('submit-button');
@@ -101,16 +82,12 @@ describe('SearchForm', () => {
     expect(storedValue).toBe('pikachu');
 
     expect(onSearchChange).toHaveBeenCalledWith('pikachu');
-    expect(input).toHaveValue('pikachu');
   });
 
   it('treats whitespace-only input as empty string', async () => {
     localStorage.setItem('searchString', '');
 
-    const user = userEvent.setup();
-    const onSearchChange = vi.fn();
-
-    render(<SearchForm onSearchChange={onSearchChange} />);
+    render(<SearchForm onSearchChange={onSearchChange} query={''} />);
 
     const input = screen.getByTestId('search-input');
     const button = screen.getByTestId('submit-button');
@@ -122,16 +99,10 @@ describe('SearchForm', () => {
     expect(storedValue).toBe('');
 
     expect(onSearchChange).toHaveBeenCalledWith('');
-    expect(input).toHaveValue('');
   });
 
   it('does not trigger search when submitting same value twice', async () => {
-    localStorage.setItem('searchString', 'pikachu');
-
-    const user = userEvent.setup();
-    const onSearchChange = vi.fn();
-
-    render(<SearchForm onSearchChange={onSearchChange} />);
+    render(<SearchForm onSearchChange={onSearchChange} query={'pikachu'} />);
 
     const button = screen.getByTestId('submit-button');
 
