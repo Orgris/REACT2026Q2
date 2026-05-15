@@ -19,7 +19,6 @@ export function SearchForm({ query, onSearchChange }: SearchFormProps) {
 
     const trimmedSearch = inputValue.trim();
 
-    localStorage.setItem('searchString', trimmedSearch);
     onSearchChange(trimmedSearch);
   };
 
