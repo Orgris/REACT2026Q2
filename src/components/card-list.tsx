@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from './card';
-import { SearchApi } from '../api/search-api';
+import { fetchPokemonList } from '../api/search-api';
 import type { Pokemon } from '../api/search-api-types';
 import { Spinner } from './ui/spinner';
 
@@ -9,7 +9,6 @@ type CardListProps = {
 };
 
 type CardListState = {
-  api: SearchApi;
   pokemons: Pokemon[];
   loading: boolean;
   error: string | null;
@@ -20,7 +19,6 @@ export class CardList extends React.Component<CardListProps, CardListState> {
     super(props);
 
     this.state = {
-      api: new SearchApi(),
       pokemons: [],
       loading: false,
       error: null,
@@ -41,7 +39,7 @@ export class CardList extends React.Component<CardListProps, CardListState> {
     this.setState({ loading: true, error: null });
 
     try {
-      const pokemons = await this.state.api.fetchPokemonList(this.props.query);
+      const pokemons = await fetchPokemonList(this.props.query);
       this.setState({
         pokemons: pokemons,
         loading: false,
@@ -58,7 +56,10 @@ export class CardList extends React.Component<CardListProps, CardListState> {
     const { pokemons, loading, error } = this.state;
 
     return (
-      <section className="justify flex grow flex-wrap items-center justify-center gap-6 rounded-lg border border-[var(--border)] bg-[var(--bg)] p-6 lg:gap-8 lg:p-8">
+      <section
+        data-testid="card-list"
+        className="justify flex grow flex-wrap items-center justify-center gap-6 rounded-lg border border-[var(--border)] bg-[var(--bg)] p-6 lg:gap-8 lg:p-8"
+      >
         {loading && <Spinner className="w-100" />}
 
         {error && <div>{error}</div>}

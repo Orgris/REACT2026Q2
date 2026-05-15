@@ -35,7 +35,11 @@ export class Card extends React.Component<CardProps, CardListState> {
       '';
 
     return (
-      <div className="relative z-10 h-76 w-60 rounded-lg" key={pokemon.id}>
+      <div
+        data-testid="card"
+        className="relative z-10 h-76 w-60 rounded-lg"
+        key={pokemon.id}
+      >
         <div className="flex h-full w-full flex-col p-3">
           <div className="flex h-[140px] flex-shrink-0 items-center justify-center">
             {loading && (

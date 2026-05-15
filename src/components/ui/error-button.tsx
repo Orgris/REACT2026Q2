@@ -27,6 +27,10 @@ export class ErrorButton extends React.Component<
     if (this.state.hasErrorOccured) {
       throw new Error('Test error');
     }
-    return <Button onClick={this.onClickButton}>Click me!</Button>;
+    return (
+      <Button data-testid="error-btn" onClick={this.onClickButton}>
+        Click me!
+      </Button>
+    );
   }
 }
