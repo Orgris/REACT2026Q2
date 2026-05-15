@@ -3,17 +3,21 @@ import { Search } from '../components/search';
 
 describe('Search', () => {
   it('renders children component', () => {
-    const testComponent = <div data-testid="children-component"></div>;
+    render(
+      <Search>
+        <p>children-component</p>
+      </Search>
+    );
 
-    render(<Search>{testComponent}</Search>);
-
-    expect(screen.getByTestId('children-component')).toBeInTheDocument();
+    expect(screen.getByText('children-component')).toBeInTheDocument();
   });
 
   it('renders text', () => {
-    const testComponent = <div data-testid="children-component"></div>;
-
-    render(<Search>{testComponent}</Search>);
+    render(
+      <Search>
+        <p>children-component</p>
+      </Search>
+    );
 
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
       /search your pokémon!/i

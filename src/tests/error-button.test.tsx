@@ -6,7 +6,7 @@ describe('ErrorButton', () => {
   it('renders button', () => {
     render(<ErrorButton />);
 
-    expect(screen.getByTestId('error-btn')).toBeInTheDocument();
+    expect(screen.getByText('Click me!')).toBeInTheDocument();
   });
 
   it('throws error after click', async () => {

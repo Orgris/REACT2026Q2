@@ -1,23 +1,8 @@
 import { vi } from 'vitest';
-import type { Pokemon } from '../api/search-api-types';
 import { screen, render, waitFor } from '@testing-library/react';
 import { CardList } from '../components/card-list';
 import { fetchPokemonList } from '../api/search-api';
-
-const mockPokemon: Pokemon = {
-  id: 1,
-  order: 1,
-  name: 'pikachu',
-  sprites: {
-    front_default: 'front.png',
-    other: {
-      showdown: {
-        front_default: 'showdown.png',
-      },
-    },
-  },
-  description: 'pokemon description',
-};
+import { mockPokemon, mockPokemon2 } from './mocks';
 
 vi.mock('../api/search-api', () => ({
   fetchPokemonList: vi.fn(),
@@ -27,12 +12,16 @@ const mockedFetchPokemonList = vi.mocked(fetchPokemonList);
 
 describe('CardList', () => {
   it('renders', async () => {
+    mockedFetchPokemonList.mockResolvedValue([]);
+
     render(<CardList query="pikachu" />);
 
-    expect(screen.getByTestId('card-list')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId('card-list')).toBeInTheDocument();
+    });
   });
 
-  it('renders pokemon card on mount', async () => {
+  it('calls fetch on mount', async () => {
     mockedFetchPokemonList.mockResolvedValue([mockPokemon]);
 
     render(<CardList query="pikachu" />);
@@ -63,12 +52,13 @@ describe('CardList', () => {
   });
 
   it('renders correct number of cards', async () => {
-    mockedFetchPokemonList.mockResolvedValue([mockPokemon, mockPokemon]);
+    mockedFetchPokemonList.mockResolvedValue([mockPokemon, mockPokemon2]);
 
     render(<CardList query="test" />);
 
     await waitFor(() => {
-      expect(screen.getAllByTestId('card')).toHaveLength(2);
+      expect(screen.getByText('pikachu')).toBeInTheDocument();
+      expect(screen.getByText('psyduck')).toBeInTheDocument();
     });
   });
 
