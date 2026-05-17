@@ -8,7 +8,7 @@ export function Search(props: SearchProps) {
   return (
     <div
       data-testid="search"
-      className="flex flex-col gap-2 rounded-lg border border-[var(--border)] bg-[var(--bg)] p-6 text-left lg:p-8"
+      className="flex flex-col gap-2 rounded-lg border border-[var(--border)] bg-[var(--bg)] p-6 text-left"
     >
       <div>
         <h2>Search your Pokémon!</h2>

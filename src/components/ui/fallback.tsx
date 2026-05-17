@@ -12,7 +12,7 @@ export function Fallback(props: FallbackProps) {
   return (
     <div
       data-testid="fallback"
-      className="flex grow flex-col items-center justify-center gap-2 bg-[var(--bg)] lg:gap-2 lg:p-8"
+      className="flex grow flex-col items-center justify-center gap-2 bg-[var(--bg)] p-6"
     >
       <p className="text-2xl font-bold text-[var(--text-h)]">
         {props.errorMessage}
