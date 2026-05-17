@@ -5,13 +5,15 @@ import App from './App';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import Home from './components/pages/home';
 import NotFound from './components/pages/not-found';
+import About from './components/pages/about';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter basename="/REACT2026Q2">
+    <BrowserRouter basename="/REACT2026Q2/">
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
