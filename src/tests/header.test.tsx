@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { Hero } from '../components/hero';
+import { Header } from '../components/header';
 
 describe('Button', () => {
   it('renders header text', () => {
-    render(<Hero />);
+    render(<Header />);
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
       /rs school.*pokédex/i
@@ -11,7 +11,7 @@ describe('Button', () => {
   });
 
   it('renders subtitle text', () => {
-    render(<Hero />);
+    render(<Header />);
 
     expect(screen.getByText(/gotta catch 'em all!/i)).toBeInTheDocument();
   });
