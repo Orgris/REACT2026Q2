@@ -3,6 +3,7 @@ import { screen, render, waitFor } from '@testing-library/react';
 import { CardList } from '../components/card-list';
 import { fetchPokemonList } from '../api/search-api';
 import { mockPokemon, mockPokemon2 } from './mocks';
+import { MemoryRouter } from 'react-router';
 
 vi.mock('../api/search-api', () => ({
   fetchPokemonList: vi.fn(),
@@ -14,7 +15,11 @@ describe('CardList', () => {
   it('renders', async () => {
     mockedFetchPokemonList.mockResolvedValue([]);
 
-    render(<CardList query="pikachu" />);
+    render(
+      <MemoryRouter>
+        <CardList />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
       expect(screen.getByTestId('card-list')).toBeInTheDocument();
@@ -23,21 +28,35 @@ describe('CardList', () => {
 
   it('calls fetch on mount', async () => {
     mockedFetchPokemonList.mockResolvedValue([mockPokemon]);
+    const query = '';
+    const offset = 0;
+    const limit = 20;
 
-    render(<CardList query="pikachu" />);
+    render(
+      <MemoryRouter>
+        <CardList />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
-      expect(mockedFetchPokemonList).toHaveBeenCalledWith('pikachu');
+      expect(mockedFetchPokemonList).toHaveBeenCalledWith(query, offset, limit);
     });
   });
 
   it('renders error', async () => {
     mockedFetchPokemonList.mockRejectedValue(new Error('Test error'));
+    const query = '';
+    const offset = 0;
+    const limit = 20;
 
-    render(<CardList query="pikachu" />);
+    render(
+      <MemoryRouter>
+        <CardList />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
-      expect(mockedFetchPokemonList).toHaveBeenCalledWith('pikachu');
+      expect(mockedFetchPokemonList).toHaveBeenCalledWith(query, offset, limit);
     });
 
     expect(await screen.findByText(/Test error/i)).toBeInTheDocument();
@@ -46,7 +65,11 @@ describe('CardList', () => {
   it('Shows loading state while fetching data', async () => {
     mockedFetchPokemonList.mockImplementation(() => new Promise(() => {}));
 
-    render(<CardList query="pikachu" />);
+    render(
+      <MemoryRouter>
+        <CardList />
+      </MemoryRouter>
+    );
 
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
   });
@@ -54,7 +77,11 @@ describe('CardList', () => {
   it('renders correct number of cards', async () => {
     mockedFetchPokemonList.mockResolvedValue([mockPokemon, mockPokemon2]);
 
-    render(<CardList query="test" />);
+    render(
+      <MemoryRouter>
+        <CardList />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
       expect(screen.getByText('pikachu')).toBeInTheDocument();
@@ -62,12 +89,15 @@ describe('CardList', () => {
     });
   });
 
-  it('Correctly displays item names and descriptions', async () => {
+  it('Correctly displays item names', async () => {
     mockedFetchPokemonList.mockResolvedValue([mockPokemon]);
 
-    render(<CardList query="pikachu" />);
+    render(
+      <MemoryRouter>
+        <CardList />
+      </MemoryRouter>
+    );
 
-    expect(await screen.findByText(/pikachu/i)).toBeInTheDocument();
-    expect(screen.getByText(/pokemon description/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Pikachu/i)).toBeInTheDocument();
   });
 });
