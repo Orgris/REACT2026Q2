@@ -1,4 +1,3 @@
-import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { CardList } from '../card-list';
 import { ErrorBoundary } from '../error-boundary';
 import { Header } from '../header';
@@ -8,22 +7,16 @@ import { ErrorButton } from '../ui/error-button';
 import { Footer } from '../ui/footer';
 
 export function Home() {
-  const [query, setQuery] = useLocalStorage('searchString');
-
-  const handleSearchChange = (query: string) => {
-    setQuery(query);
-  };
-
   return (
     <ErrorBoundary>
       <Header />
 
       <Search>
-        <SearchForm query={query} onSearchChange={handleSearchChange} />
+        <SearchForm />
       </Search>
 
       <ErrorBoundary>
-        <CardList key={query} query={query} />
+        <CardList />
       </ErrorBoundary>
 
       <Footer>

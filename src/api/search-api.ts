@@ -12,18 +12,22 @@ const endpoints = {
 };
 
 export const fetchPokemonList = async (
-  query: number | string
+  query: number | string,
+  offset: number,
+  limit: number
 ): Promise<Pokemon[]> => {
   try {
     if (query !== '') {
       const pokemon = await fetchPokemon(
-        `${BASE_URL}${endpoints.pokemon}/${query}`
+        `${BASE_URL}${endpoints.pokemon}/${query + '/'}?limit=${limit}&offset=${offset}`
       );
 
       return [pokemon];
     }
 
-    const res = await fetch(`${BASE_URL}${endpoints.pokemon}/${query}`);
+    const res = await fetch(
+      `${BASE_URL}${endpoints.pokemon}/?limit=${limit}&offset=${offset}`
+    );
     await handleResponse(res, 'pokemon list');
 
     const list: PokemonListResponse = await res.json();

@@ -1,14 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import PokeballIcon from '../assets/pokeball.svg?react';
+import { useSearchParams } from 'react-router';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
-type SearchFormProps = {
-  query: string;
-  onSearchChange: (value: string) => void;
-};
+export function SearchForm() {
+  const [storedQuery, setStoredQuery] = useLocalStorage('searchString');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('search') ?? '';
 
-export function SearchForm({ query, onSearchChange }: SearchFormProps) {
-  const [inputValue, setInputValue] = useState(query);
+  const [inputValue, setInputValue] = useState(() => query || storedQuery);
+
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    setInputValue(query);
+  }, [query]);
+
+  useEffect(() => {
+    if (query || !storedQuery) {
+      return;
+    }
+
+    const params = new URLSearchParams(searchParams);
+
+    params.set('search', storedQuery);
+    params.set('page', '1');
+
+    setSearchParams(params);
+  }, []);
 
   const handleSubmit = (event: React.SubmitEvent) => {
     event.preventDefault();
@@ -19,7 +43,18 @@ export function SearchForm({ query, onSearchChange }: SearchFormProps) {
 
     const trimmedSearch = inputValue.trim();
 
-    onSearchChange(trimmedSearch);
+    const params = new URLSearchParams(searchParams);
+
+    if (trimmedSearch) {
+      params.set('search', trimmedSearch);
+    } else {
+      params.delete('search');
+    }
+
+    params.set('page', '1');
+
+    setSearchParams(params);
+    setStoredQuery(trimmedSearch);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
