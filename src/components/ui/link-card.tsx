@@ -24,7 +24,7 @@ export function LinkCard({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className={`flex w-fit items-center gap-3 rounded-lg border-2 border-[var(--border)] p-4 transition-all duration-200 hover:bg-white/5 ${className} ${variant === 'personal' ? 'flex-col items-center justify-center text-center' : ''}`}
+      className={`flex w-fit items-center gap-3 rounded-lg border-2 border-[var(--border)] p-4 transition-all duration-300 hover:bg-white/5 ${className} ${variant === 'personal' ? 'flex-col items-center justify-center text-center' : ''}`}
     >
       <img src={imageSrc} alt={imageAlt} className="h-10 w-10 object-contain" />
 

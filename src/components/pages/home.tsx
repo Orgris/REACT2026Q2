@@ -16,7 +16,7 @@ export function Home() {
       <Header />
 
       <div className="flex">
-        <main className="grow">
+        <main className="flex grow flex-col">
           <Search>
             <SearchForm />
           </Search>
