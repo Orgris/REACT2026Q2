@@ -1,25 +1,11 @@
 import {
   fetchPokemon,
   fetchPokemonList,
-  getCapitalizedName,
   handleResponse,
 } from '../api/search-api';
 import { getEnglishDescription } from '../api/search-api';
 import type { PokemonSpecies } from '../api/search-api-types';
-
-describe('getCapitalizedName', () => {
-  it('should capitalize first letter', () => {
-    expect(getCapitalizedName('pikachu')).toBe('Pikachu');
-  });
-
-  it('should handle single letter', () => {
-    expect(getCapitalizedName('p')).toBe('P');
-  });
-
-  it('returns empty string', () => {
-    expect(getCapitalizedName('')).toBe('');
-  });
-});
+import { mockPokemon } from './mocks';
 
 describe('getEnglishDescription', () => {
   const makeEntries = (
@@ -116,75 +102,20 @@ describe('fetchPokemon', () => {
     vi.restoreAllMocks();
   });
 
-  const pokemonApiResponse = {
-    id: 1,
-    order: 1,
-    name: 'pikachu',
-    species: {
-      url: 'https://pokeapi.co/api/v2/pokemon-species/1/',
-    },
-    sprites: {
-      front_default: 'front.png',
-      other: {
-        showdown: {
-          front_default: 'showdown.png',
-        },
-      },
-    },
-  };
-
-  const speciesApiResponse = {
-    flavor_text_entries: [
-      {
-        flavor_text: 'Hola',
-        language: { name: 'es' },
-      },
-      {
-        flavor_text: 'Test\ndescription',
-        language: { name: 'en' },
-      },
-    ],
-  };
-
   it('should fetch pokemon and species and return normalized object', async () => {
-    mockFetch
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => pokemonApiResponse,
-      } as Response)
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => speciesApiResponse,
-      } as Response);
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPokemon,
+    } as Response);
 
     const result = await fetchPokemon('https://pokeapi.co/api/v2/pokemon/1');
-
-    expect(mockFetch).toHaveBeenCalledTimes(2);
 
     expect(mockFetch).toHaveBeenNthCalledWith(
       1,
       'https://pokeapi.co/api/v2/pokemon/1'
     );
 
-    expect(mockFetch).toHaveBeenNthCalledWith(
-      2,
-      pokemonApiResponse.species.url
-    );
-
-    expect(result).toEqual({
-      id: 1,
-      order: 1,
-      name: 'Pikachu',
-      sprites: {
-        front_default: 'front.png',
-        other: {
-          showdown: {
-            front_default: 'showdown.png',
-          },
-        },
-      },
-      description: 'Test description',
-    });
+    expect(result).toEqual(mockPokemon);
   });
 });
 
@@ -203,46 +134,28 @@ describe('fetchPokemonList', () => {
   it('fetches single pokemon when query is provided', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: async () => ({
-        id: 1,
-        order: 1,
-        name: 'pikachu',
-        species: {
-          url: 'species-url',
-        },
-        sprites: {
-          front_default: 'front.png',
-          other: {
-            showdown: {
-              front_default: 'showdown.png',
-            },
-          },
-        },
-      }),
+      json: async () => mockPokemon,
     } as Response);
 
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({
-        flavor_text_entries: [
-          {
-            flavor_text: 'Test',
-            language: { name: 'en' },
-          },
-        ],
-      }),
-    } as Response);
+    const query = 'pikachu';
+    const offset = 0;
+    const limit = 20;
 
-    const result = await fetchPokemonList('pikachu');
+    const result = await fetchPokemonList(query, offset, limit);
 
-    expect(mockFetch).toHaveBeenCalledTimes(2);
+    expect(mockFetch).toHaveBeenCalledTimes(1);
     expect(result).toHaveLength(1);
-    expect(result[0].name).toBe('Pikachu');
+    expect(result[0].name).toBe('pikachu');
   });
 
   it('throws error when fetchPokemon fails', async () => {
     mockFetch.mockRejectedValueOnce(new Error('network error'));
+    const query = 'pikachu';
+    const offset = 0;
+    const limit = 20;
 
-    await expect(fetchPokemonList('pikachu')).rejects.toThrow('network error');
+    await expect(fetchPokemonList(query, offset, limit)).rejects.toThrow(
+      'network error'
+    );
   });
 });
