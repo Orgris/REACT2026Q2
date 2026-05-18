@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { SearchForm } from '../components/search-form';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router';
 
 describe('SearchForm', () => {
   const onSearchChange = vi.fn();
@@ -12,8 +13,11 @@ describe('SearchForm', () => {
   });
 
   it('should render form with input and button', () => {
-    render(<SearchForm onSearchChange={onSearchChange} query={''} />);
-
+    render(
+      <MemoryRouter>
+        <SearchForm />
+      </MemoryRouter>
+    );
     expect(screen.getByTestId('search-form')).toBeInTheDocument();
     expect(
       screen.getByPlaceholderText("Who's that Pokémon?")
@@ -24,14 +28,20 @@ describe('SearchForm', () => {
   it('handles query', () => {
     localStorage.setItem('searchString', 'pikachu');
 
-    render(<SearchForm onSearchChange={onSearchChange} query={'pikachu'} />);
-
+    render(
+      <MemoryRouter>
+        <SearchForm />
+      </MemoryRouter>
+    );
     expect(screen.getByTestId('search-input')).toHaveValue('pikachu');
   });
 
   it('writes value to localStorage after submit', async () => {
-    render(<SearchForm onSearchChange={onSearchChange} query={'pikachu'} />);
-
+    render(
+      <MemoryRouter>
+        <SearchForm />
+      </MemoryRouter>
+    );
     const input = screen.getByTestId('search-input');
     const button = screen.getByTestId('submit-button');
 
@@ -46,16 +56,22 @@ describe('SearchForm', () => {
   it('does not submit new query if query did not change', async () => {
     localStorage.setItem('searchString', 'pikachu');
 
-    render(<SearchForm onSearchChange={onSearchChange} query={'pikachu'} />);
-
+    render(
+      <MemoryRouter>
+        <SearchForm />
+      </MemoryRouter>
+    );
     await user.click(screen.getByTestId('submit-button'));
 
     expect(onSearchChange).not.toHaveBeenCalled();
   });
 
   it('updates localStorage when new value is submitted', async () => {
-    render(<SearchForm onSearchChange={onSearchChange} query={'pikachu'} />);
-
+    render(
+      <MemoryRouter>
+        <SearchForm />
+      </MemoryRouter>
+    );
     const input = screen.getByTestId('search-input');
     const button = screen.getByTestId('submit-button');
 
@@ -70,8 +86,11 @@ describe('SearchForm', () => {
   it('handles trims value input correctly', async () => {
     localStorage.setItem('searchString', '');
 
-    render(<SearchForm onSearchChange={onSearchChange} query={''} />);
-
+    render(
+      <MemoryRouter>
+        <SearchForm />
+      </MemoryRouter>
+    );
     const input = screen.getByTestId('search-input');
     const button = screen.getByTestId('submit-button');
 
@@ -80,15 +99,16 @@ describe('SearchForm', () => {
 
     const storedValue = localStorage.getItem('searchString');
     expect(storedValue).toBe('pikachu');
-
-    expect(onSearchChange).toHaveBeenCalledWith('pikachu');
   });
 
   it('treats whitespace-only input as empty string', async () => {
     localStorage.setItem('searchString', '');
 
-    render(<SearchForm onSearchChange={onSearchChange} query={''} />);
-
+    render(
+      <MemoryRouter>
+        <SearchForm />
+      </MemoryRouter>
+    );
     const input = screen.getByTestId('search-input');
     const button = screen.getByTestId('submit-button');
 
@@ -97,12 +117,16 @@ describe('SearchForm', () => {
 
     const storedValue = localStorage.getItem('searchString');
     expect(storedValue).toBe('');
-
-    expect(onSearchChange).toHaveBeenCalledWith('');
   });
 
   it('does not trigger search when submitting same value twice', async () => {
-    render(<SearchForm onSearchChange={onSearchChange} query={'pikachu'} />);
+    localStorage.setItem('searchString', 'pikachu');
+
+    render(
+      <MemoryRouter>
+        <SearchForm />
+      </MemoryRouter>
+    );
 
     const button = screen.getByTestId('submit-button');
 
