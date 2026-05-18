@@ -108,7 +108,7 @@ export function About() {
               />
 
               <LinkCard
-                href="https://github.com/Orgris"
+                href="https://github.com/Orgris/REACT2026Q2"
                 imageSrc={githubLogo}
                 imageAlt="GitHub logo"
                 title="Project Repository"
