@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { Pokemon } from '../api/search-api-types';
 import { Spinner } from './ui/spinner';
+import { useNavigate, useSearchParams } from 'react-router';
+import { PokemonTypesList } from './pokemon-type-list';
 
 type CardProps = {
   pokemon: Pokemon;
@@ -8,6 +10,20 @@ type CardProps = {
 
 export function Card({ pokemon }: CardProps) {
   const [loading, setLoading] = useState(true);
+  const [searchParams] = useSearchParams();
+
+  const navigate = useNavigate();
+
+  const handleOpenDetails = (pokemonId: number) => {
+    const params = new URLSearchParams(searchParams);
+
+    params.set('details', String(pokemonId));
+
+    navigate({
+      pathname: '/details',
+      search: params.toString(),
+    });
+  };
 
   const handleImageLoad = () => {
     setLoading(false);
@@ -20,6 +36,7 @@ export function Card({ pokemon }: CardProps) {
 
   return (
     <div
+      onClick={() => handleOpenDetails(pokemon.id)}
       data-testid="card"
       className="relative z-10 h-76 w-60 rounded-lg"
       key={pokemon.id}

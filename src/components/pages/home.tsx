@@ -1,3 +1,4 @@
+import { Outlet, useLocation } from 'react-router';
 import { CardList } from '../card-list';
 import { ErrorBoundary } from '../error-boundary';
 import { Header } from '../header';
@@ -7,17 +8,26 @@ import { ErrorButton } from '../ui/error-button';
 import { Footer } from '../ui/footer';
 
 export function Home() {
+  const location = useLocation();
+  const hasDetailsPanel = location.pathname.includes('/details');
+
   return (
     <ErrorBoundary>
       <Header />
 
-      <Search>
-        <SearchForm />
-      </Search>
+      <div className="flex">
+        <main className="grow">
+          <Search>
+            <SearchForm />
+          </Search>
 
-      <ErrorBoundary>
-        <CardList />
-      </ErrorBoundary>
+          <ErrorBoundary>
+            <CardList />
+          </ErrorBoundary>
+        </main>
+
+        {hasDetailsPanel && <Outlet />}
+      </div>
 
       <Footer>
         <ErrorButton />
