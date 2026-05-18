@@ -1,10 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import App from '../App';
+import Home from '../components/pages/home';
+import { MemoryRouter } from 'react-router';
 
-describe('App', () => {
+describe('Home', () => {
   it('should render main layout sections', () => {
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>
+    );
 
     expect(screen.getByText('RS School')).toBeInTheDocument();
     expect(screen.getByText('Search your Pokémon!')).toBeInTheDocument();
@@ -18,7 +23,11 @@ describe('App', () => {
   it('reads value from localStorage on mount', () => {
     localStorage.setItem('searchString', 'pikachu');
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>
+    );
 
     expect(screen.getByTestId('search-input')).toHaveValue('pikachu');
   });
@@ -26,7 +35,11 @@ describe('App', () => {
   it('reads empty value from localStorage on mount', () => {
     localStorage.setItem('searchString', '');
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>
+    );
 
     expect(screen.getByTestId('search-input')).toHaveValue('');
   });
