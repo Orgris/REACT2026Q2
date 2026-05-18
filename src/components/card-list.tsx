@@ -29,24 +29,34 @@ export function CardList() {
   };
 
   useEffect(() => {
+    let isCurrent = true;
+
     const getPokemons = async () => {
       setError(null);
       setLoading(true);
 
       try {
-        const pokemons = await fetchPokemonList(query, offset, limit);
-        setPokemons(pokemons);
-      } catch (error) {
+        const data = await fetchPokemonList(query, offset, limit);
+
+        if (!isCurrent) return;
+
+        setPokemons(data);
+      } catch (err) {
+        if (!isCurrent) return;
         const errorMessage =
-          error instanceof Error ? error.message : 'Unexpected error';
+          err instanceof Error ? err.message : 'Unexpected error';
         setError(errorMessage);
       } finally {
-        setLoading(false);
+        if (isCurrent) setLoading(false);
       }
     };
 
     getPokemons();
-  }, [query, offset, limit]);
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [query, page]);
 
   return (
     <section
