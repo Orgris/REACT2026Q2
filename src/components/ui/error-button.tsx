@@ -1,36 +1,18 @@
-import React from 'react';
+import { useState } from 'react';
 import { Button } from './button';
 
-type ErrorButtonProps = Record<string, never>;
-
-type ErrorButtonState = {
-  hasErrorOccured: boolean;
-};
-
-export class ErrorButton extends React.Component<
-  ErrorButtonProps,
-  ErrorButtonState
-> {
-  constructor(props: ErrorButtonProps) {
-    super(props);
-
-    this.state = {
-      hasErrorOccured: false,
-    };
-  }
-
-  onClickButton = () => {
-    this.setState({ hasErrorOccured: true });
+export function ErrorButton() {
+  const [errorOccured, setErrorOccured] = useState(false);
+  const onClickButton = () => {
+    setErrorOccured(true);
   };
 
-  render(): React.ReactNode {
-    if (this.state.hasErrorOccured) {
-      throw new Error('Test error');
-    }
-    return (
-      <Button data-testid="error-btn" onClick={this.onClickButton}>
-        Click me!
-      </Button>
-    );
+  if (errorOccured) {
+    throw new Error('Test error');
   }
+  return (
+    <Button data-testid="error-btn" onClick={onClickButton}>
+      Click me!
+    </Button>
+  );
 }

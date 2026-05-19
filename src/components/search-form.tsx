@@ -1,66 +1,87 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import PokeballIcon from '../assets/pokeball.svg?react';
+import { useSearchParams } from 'react-router';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
-type SearchFormProps = {
-  onSearchChange: (value: string) => void;
-};
+export function SearchForm() {
+  const [storedQuery, setStoredQuery] = useLocalStorage('searchString');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('search') ?? '';
 
-type SearchFormState = {
-  query: string;
-  lastQuery: string;
-};
+  const [inputValue, setInputValue] = useState(() => query || storedQuery);
 
-export class SearchForm extends React.Component<
-  SearchFormProps,
-  SearchFormState
-> {
-  constructor(props: SearchFormProps) {
-    super(props);
+  const isInitialMount = useRef(true);
 
-    this.state = {
-      query: localStorage.getItem('searchString') ?? '',
-      lastQuery: localStorage.getItem('searchString') ?? '',
-    };
-  }
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    setInputValue(query);
+  }, [query]);
 
-  handleSubmit = (event: React.SubmitEvent) => {
-    event.preventDefault();
-
-    if (this.state.query === this.state.lastQuery) {
+  useEffect(() => {
+    if (query || !storedQuery) {
       return;
     }
 
-    const trimmedSearch = this.state.query.trim();
-    this.setState({ query: trimmedSearch, lastQuery: trimmedSearch });
-    localStorage.setItem('searchString', trimmedSearch);
+    const params = new URLSearchParams(searchParams);
 
-    this.props.onSearchChange(trimmedSearch);
+    params.set('search', storedQuery);
+    params.set('page', '1');
+
+    setSearchParams(params);
+  }, []);
+
+  const handleSubmit = (event: React.SubmitEvent) => {
+    event.preventDefault();
+
+    if (inputValue === query) {
+      return;
+    }
+
+    const trimmedSearch = inputValue.trim();
+
+    const params = new URLSearchParams(searchParams);
+
+    if (trimmedSearch) {
+      params.set('search', trimmedSearch);
+    } else {
+      params.delete('search');
+    }
+
+    params.set('page', '1');
+
+    setSearchParams(params);
+    setStoredQuery(trimmedSearch);
   };
 
-  render(): React.ReactNode {
-    return (
-      <form
-        data-testid="search-form"
-        className="flex gap-3"
-        onSubmit={this.handleSubmit}
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  return (
+    <form
+      data-testid="search-form"
+      className="flex gap-3"
+      onSubmit={handleSubmit}
+    >
+      <input
+        data-testid="search-input"
+        className="flex-1 rounded-lg border-2 border-[var(--border)] bg-[var(--border)] px-3 py-1 transition-colors hover:border-[var(--accent-border)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+        type="search"
+        placeholder="Who's that Pokémon?"
+        value={inputValue}
+        onChange={handleChange}
+      />
+      <Button
+        className="bg-red-400 hover:border-red-500 hover:bg-red-500"
+        type="submit"
+        data-testid="submit-button"
       >
-        <input
-          data-testid="search-input"
-          className="flex-1 rounded-lg border-2 border-[var(--border)] bg-[var(--border)] px-3 py-1 transition-colors hover:border-[var(--accent-border)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
-          type="search"
-          placeholder="Who's that Pokémon?"
-          value={this.state.query}
-          onChange={(e) => this.setState({ query: e.target.value })}
-        />
-        <Button
-          className="bg-red-400 hover:border-red-500 hover:bg-red-500"
-          type="submit"
-          data-testid="submit-button"
-        >
-          <PokeballIcon className="w-6 scale-130 text-[white]" />
-        </Button>
-      </form>
-    );
-  }
+        <PokeballIcon className="w-6 scale-130 text-[white]" />
+      </Button>
+    </form>
+  );
 }

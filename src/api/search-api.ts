@@ -12,18 +12,22 @@ const endpoints = {
 };
 
 export const fetchPokemonList = async (
-  query: number | string
+  query: number | string,
+  offset: number,
+  limit: number
 ): Promise<Pokemon[]> => {
   try {
     if (query !== '') {
       const pokemon = await fetchPokemon(
-        `${BASE_URL}${endpoints.pokemon}/${query}`
+        `${BASE_URL}${endpoints.pokemon}/${query + '/'}?limit=${limit}&offset=${offset}`
       );
 
       return [pokemon];
     }
 
-    const res = await fetch(`${BASE_URL}${endpoints.pokemon}/${query}`);
+    const res = await fetch(
+      `${BASE_URL}${endpoints.pokemon}/?limit=${limit}&offset=${offset}`
+    );
     await handleResponse(res, 'pokemon list');
 
     const list: PokemonListResponse = await res.json();
@@ -45,26 +49,7 @@ export const fetchPokemon = async (url: string): Promise<Pokemon> => {
 
     const pokemonData = await pokemonRes.json();
 
-    const speciesRes = await fetch(pokemonData.species.url);
-    await handleResponse(speciesRes, 'pokemon species');
-
-    const speciesData: PokemonSpecies = await speciesRes.json();
-
-    return {
-      id: pokemonData.id,
-      order: pokemonData.order,
-      name: getCapitalizedName(pokemonData.name),
-      sprites: {
-        front_default: pokemonData.sprites.front_default,
-        other: {
-          showdown: {
-            front_default:
-              pokemonData.sprites.other?.showdown?.front_default ?? null,
-          },
-        },
-      },
-      description: getEnglishDescription(speciesData.flavor_text_entries),
-    };
+    return pokemonData;
   } catch (error) {
     throw new Error(
       error instanceof Error
@@ -74,8 +59,21 @@ export const fetchPokemon = async (url: string): Promise<Pokemon> => {
   }
 };
 
-export const getCapitalizedName = (name: string) => {
-  return name.charAt(0).toUpperCase() + name.slice(1);
+export const fetchDescription = async (url: string): Promise<string> => {
+  try {
+    const speciesRes = await fetch(url);
+    await handleResponse(speciesRes, 'pokemon species description');
+
+    const speciesData: PokemonSpecies = await speciesRes.json();
+
+    return getEnglishDescription(speciesData.flavor_text_entries);
+  } catch (error) {
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : 'Unknown error while fetching species'
+    );
+  }
 };
 
 export const getEnglishDescription = (
