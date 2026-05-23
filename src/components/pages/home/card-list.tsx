@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Card } from './card';
-import { fetchPokemonList } from '../api/search-api';
-import type { Pokemon } from '../api/search-api-types';
-import { Spinner } from './ui/spinner';
-import { Pagination } from './ui/pagination';
+import { fetchPokemonList } from '../../../api/search-api';
+import type { Pokemon } from '../../../api/search-api-types';
+import { Spinner } from '../../ui/spinner';
+import { Pagination } from '../../ui/pagination';
 import { useSearchParams } from 'react-router';
 
 const LIST_ITEM_LIMIT = 20;
@@ -12,21 +12,11 @@ export function CardList() {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const query = searchParams.get('search') ?? '';
-
-  const limit = LIST_ITEM_LIMIT;
   const page = Number(searchParams.get('page')) || 1;
-  const offset = (page - 1) * limit;
-
-  const handlePageChange = (newPage: number) => {
-    const params = new URLSearchParams(searchParams);
-
-    params.set('page', String(newPage));
-
-    setSearchParams(params);
-  };
 
   useEffect(() => {
     let isCurrent = true;
@@ -34,6 +24,9 @@ export function CardList() {
     const getPokemons = async () => {
       setError(null);
       setLoading(true);
+
+      const limit = LIST_ITEM_LIMIT;
+      const offset = (page - 1) * limit;
 
       try {
         const data = await fetchPokemonList(query, offset, limit);
@@ -57,6 +50,14 @@ export function CardList() {
       isCurrent = false;
     };
   }, [query, page]);
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams);
+
+    params.set('page', String(newPage));
+
+    setSearchParams(params);
+  };
 
   return (
     <section

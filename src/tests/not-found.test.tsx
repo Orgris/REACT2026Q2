@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-import NotFound from '../components/pages/not-found';
+import NotFound from '../components/pages/not-found/not-found';
 import { MemoryRouter } from 'react-router';
 
 describe('NotFound', () => {

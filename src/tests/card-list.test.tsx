@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 import { screen, render, waitFor } from '@testing-library/react';
-import { CardList } from '../components/card-list';
+import { CardList } from '../components/pages/home/card-list';
 import { fetchPokemonList } from '../api/search-api';
 import { mockPokemon, mockPokemon2 } from './mocks';
 import { MemoryRouter } from 'react-router';

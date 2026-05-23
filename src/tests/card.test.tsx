@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Pokemon } from '../api/search-api-types';
-import { Card } from '../components/card';
+import { Card } from '../components/pages/home/card';
 import { mockPokemon } from './mocks';
 import { MemoryRouter } from 'react-router';
 

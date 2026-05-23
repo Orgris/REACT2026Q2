@@ -1,13 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import Home from '../components/pages/home';
 import { MemoryRouter } from 'react-router';
+import Home from '../components/pages/home/home';
+import { ThemeProvider } from '../providers/theme-provider';
 
 describe('Home', () => {
   it('should render main layout sections', () => {
     render(
       <MemoryRouter>
-        <Home />
+        <ThemeProvider>
+          <Home />
+        </ThemeProvider>
       </MemoryRouter>
     );
 
@@ -25,7 +28,9 @@ describe('Home', () => {
 
     render(
       <MemoryRouter>
-        <Home />
+        <ThemeProvider>
+          <Home />
+        </ThemeProvider>
       </MemoryRouter>
     );
 
@@ -37,7 +42,9 @@ describe('Home', () => {
 
     render(
       <MemoryRouter>
-        <Home />
+        <ThemeProvider>
+          <Home />
+        </ThemeProvider>
       </MemoryRouter>
     );
 

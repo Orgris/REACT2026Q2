@@ -1,12 +1,15 @@
 import { render, screen } from '@testing-library/react';
-import { Header } from '../components/header';
+import { Header } from '../components/ui/header';
 import { MemoryRouter } from 'react-router';
+import { ThemeProvider } from '../providers/theme-provider';
 
 describe('Button', () => {
   it('renders header text', () => {
     render(
       <MemoryRouter>
-        <Header />
+        <ThemeProvider>
+          <Header />
+        </ThemeProvider>
       </MemoryRouter>
     );
 
@@ -18,7 +21,9 @@ describe('Button', () => {
   it('renders subtitle text', () => {
     render(
       <MemoryRouter>
-        <Header />
+        <ThemeProvider>
+          <Header />
+        </ThemeProvider>
       </MemoryRouter>
     );
 

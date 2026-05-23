@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import type { Pokemon } from '../api/search-api-types';
-import { Spinner } from './ui/spinner';
+import type { Pokemon } from '../../../api/search-api-types';
+import { Spinner } from '../../ui/spinner';
 import { useNavigate, useSearchParams } from 'react-router';
 import { PokemonTypesList } from './pokemon-type-list';
 

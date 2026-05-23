@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Search } from '../components/search';
+import { Search } from '../components/pages/home/search';
 
 describe('Search', () => {
   it('renders children component', () => {
