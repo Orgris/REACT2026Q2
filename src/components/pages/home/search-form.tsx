@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '../../ui/button';
 import PokeballIcon from '../../../assets/pokeball.svg?react';
 import { useSearchParams } from 'react-router';
-import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import { useLocalStorage } from '../../../app/hooks/useLocalStorage';
 
 export function SearchForm() {
   const [storedQuery, setStoredQuery] = useLocalStorage('searchString');
