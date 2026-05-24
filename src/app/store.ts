@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import errorButtonReducer from './errorButtonSlice';
+import pokemonListReducer from './pokemonListSlice';
 
 export const store = configureStore({
   reducer: {
     errorButton: errorButtonReducer,
+    pokemonList: pokemonListReducer,
   },
 });
 
