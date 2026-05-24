@@ -1,15 +1,21 @@
-import { useState } from 'react';
 import { Button } from './button';
+import { setError } from '../../app/errorButtonSlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 
 export function ErrorButton() {
-  const [errorOccured, setErrorOccured] = useState(false);
+  const errorOccured = useAppSelector(
+    (state) => state.errorButton.errorOccured
+  );
+  const dispatch = useAppDispatch();
+
   const onClickButton = () => {
-    setErrorOccured(true);
+    dispatch(setError());
   };
 
   if (errorOccured) {
     throw new Error('Test error');
   }
+
   return (
     <Button data-testid="error-btn" onClick={onClickButton}>
       Click me!

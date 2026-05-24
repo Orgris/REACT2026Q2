@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import errorButtonReducer from './errorButtonSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    errorButton: errorButtonReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
