@@ -8,7 +8,7 @@ import {
   selectError,
   selectLoading,
   selectPokemons,
-} from '../../../app/pokemonListSelectors';
+} from '../../../app/selectors/pokemonListSelectors';
 import { fetchPokemons } from '../../../app/pokemonListSlice';
 
 export function CardList() {
