@@ -49,7 +49,9 @@ export function Flyout() {
         .join(' | ');
 
       const detailsUrl =
-        `${window.location.origin}` + `/#/details?details=${pokemon.id}`;
+        `${window.location.origin}` +
+        `${window.location.pathname}` +
+        `#/details?details=${pokemon.id}`;
 
       return [
         pokemon.id,
