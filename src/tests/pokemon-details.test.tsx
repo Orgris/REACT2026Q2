@@ -1,9 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { PokemonDetails } from '../components/pokemon-details';
-
+import { PokemonDetails } from '../components/pages/home/pokemon-details';
 import { fetchPokemon, fetchDescription } from '../api/search-api';
 import { mockPokemon } from './mocks';
 import { MemoryRouter } from 'react-router';

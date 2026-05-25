@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Spinner } from './ui/spinner';
+import { Spinner } from '../../ui/spinner';
 import { useNavigate, useSearchParams } from 'react-router';
-import type { PokemonDetailsData } from '../api/search-api-types';
-import { Button } from './ui/button';
+import type { PokemonDetailsData } from '../../../api/search-api-types';
+import { Button } from '../../ui/button';
 import { PokemonTypesList } from './pokemon-type-list';
-import { fetchDescription, fetchPokemon } from '../api/search-api';
+import { fetchDescription, fetchPokemon } from '../../../api/search-api';
 
 const statLabels: Record<string, string> = {
   hp: 'HP',

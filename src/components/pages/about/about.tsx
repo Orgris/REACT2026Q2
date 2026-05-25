@@ -1,7 +1,7 @@
-import { Header } from '../header';
-import { Footer } from '../ui/footer';
-import { LinkCard } from '../ui/link-card';
-import githubLogo from '../../assets/GitHub_Invertocat_Black.svg';
+import { Header } from '../../ui/header';
+import { Footer } from '../../ui/footer';
+import { LinkCard } from './link-card';
+import githubLogo from '../../../assets/GitHub_Invertocat_Black.svg';
 
 export function About() {
   return (

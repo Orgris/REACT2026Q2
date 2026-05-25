@@ -1,9 +1,11 @@
 import { vi } from 'vitest';
 import { screen, render, waitFor } from '@testing-library/react';
-import { CardList } from '../components/card-list';
+import { CardList } from '../components/pages/home/card-list';
 import { fetchPokemonList } from '../api/search-api';
 import { mockPokemon, mockPokemon2 } from './mocks';
 import { MemoryRouter } from 'react-router';
+import { store } from '../app/store';
+import { Provider } from 'react-redux';
 
 vi.mock('../api/search-api', () => ({
   fetchPokemonList: vi.fn(),
@@ -16,9 +18,11 @@ describe('CardList', () => {
     mockedFetchPokemonList.mockResolvedValue([]);
 
     render(
-      <MemoryRouter>
-        <CardList />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <CardList />
+        </MemoryRouter>
+      </Provider>
     );
 
     await waitFor(() => {
@@ -33,9 +37,11 @@ describe('CardList', () => {
     const limit = 20;
 
     render(
-      <MemoryRouter>
-        <CardList />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <CardList />
+        </MemoryRouter>
+      </Provider>
     );
 
     await waitFor(() => {
@@ -50,9 +56,11 @@ describe('CardList', () => {
     const limit = 20;
 
     render(
-      <MemoryRouter>
-        <CardList />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <CardList />
+        </MemoryRouter>
+      </Provider>
     );
 
     await waitFor(() => {
@@ -66,9 +74,11 @@ describe('CardList', () => {
     mockedFetchPokemonList.mockImplementation(() => new Promise(() => {}));
 
     render(
-      <MemoryRouter>
-        <CardList />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <CardList />
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
@@ -78,9 +88,11 @@ describe('CardList', () => {
     mockedFetchPokemonList.mockResolvedValue([mockPokemon, mockPokemon2]);
 
     render(
-      <MemoryRouter>
-        <CardList />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <CardList />
+        </MemoryRouter>
+      </Provider>
     );
 
     await waitFor(() => {
@@ -93,9 +105,11 @@ describe('CardList', () => {
     mockedFetchPokemonList.mockResolvedValue([mockPokemon]);
 
     render(
-      <MemoryRouter>
-        <CardList />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <CardList />
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(await screen.findByText(/Pikachu/i)).toBeInTheDocument();

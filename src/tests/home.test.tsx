@@ -1,14 +1,21 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import Home from '../components/pages/home';
 import { MemoryRouter } from 'react-router';
+import Home from '../components/pages/home/home';
+import { ThemeProvider } from '../providers/theme-provider';
+import { store } from '../app/store';
+import { Provider } from 'react-redux';
 
 describe('Home', () => {
   it('should render main layout sections', () => {
     render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ThemeProvider>
+            <Home />
+          </ThemeProvider>
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByText('RS School')).toBeInTheDocument();
@@ -24,9 +31,13 @@ describe('Home', () => {
     localStorage.setItem('searchString', 'pikachu');
 
     render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ThemeProvider>
+            <Home />
+          </ThemeProvider>
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByTestId('search-input')).toHaveValue('pikachu');
@@ -36,9 +47,13 @@ describe('Home', () => {
     localStorage.setItem('searchString', '');
 
     render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ThemeProvider>
+            <Home />
+          </ThemeProvider>
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByTestId('search-input')).toHaveValue('');

@@ -1,15 +1,19 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Pokemon } from '../api/search-api-types';
-import { Card } from '../components/card';
+import { Card } from '../components/pages/home/card';
 import { mockPokemon } from './mocks';
 import { MemoryRouter } from 'react-router';
+import { Provider } from 'react-redux';
+import { store } from '../app/store';
 
 describe('Card', () => {
   test('renders pokemon info', () => {
     render(
-      <MemoryRouter>
-        <Card pokemon={mockPokemon} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <Card pokemon={mockPokemon} />
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByText(/#001/i)).toBeInTheDocument();
@@ -18,9 +22,11 @@ describe('Card', () => {
 
   test('renders image with correct alt and src', () => {
     render(
-      <MemoryRouter>
-        <Card pokemon={mockPokemon} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <Card pokemon={mockPokemon} />
+        </MemoryRouter>
+      </Provider>
     );
     const image = screen.getByAltText('pikachu image') as HTMLImageElement;
 
@@ -30,19 +36,24 @@ describe('Card', () => {
 
   test('shows spinner before image load', () => {
     render(
-      <MemoryRouter>
-        <Card pokemon={mockPokemon} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <Card pokemon={mockPokemon} />
+        </MemoryRouter>
+      </Provider>
     );
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
   });
 
   test('hides spinner after image load', () => {
     render(
-      <MemoryRouter>
-        <Card pokemon={mockPokemon} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <Card pokemon={mockPokemon} />
+        </MemoryRouter>
+      </Provider>
     );
+
     const image = screen.getByAltText('pikachu image');
 
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
@@ -60,9 +71,11 @@ describe('Card', () => {
       },
     };
     render(
-      <MemoryRouter>
-        <Card pokemon={pokemonWithoutShowdown} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <Card pokemon={pokemonWithoutShowdown} />
+        </MemoryRouter>
+      </Provider>
     );
 
     const image = screen.getByAltText('pikachu image') as HTMLImageElement;
@@ -79,9 +92,11 @@ describe('Card', () => {
     };
 
     render(
-      <MemoryRouter>
-        <Card pokemon={pokemonWithoutImages} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <Card pokemon={pokemonWithoutImages} />
+        </MemoryRouter>
+      </Provider>
     );
 
     const image = screen.getByAltText('pikachu image');

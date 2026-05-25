@@ -1,10 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ErrorButton } from '../components/ui/error-button';
+import { Provider } from 'react-redux';
+import { store } from '../app/store';
 
 describe('ErrorButton', () => {
   it('renders button', () => {
-    render(<ErrorButton />);
+    render(
+      <Provider store={store}>
+        <ErrorButton />
+      </Provider>
+    );
 
     expect(screen.getByText('Click me!')).toBeInTheDocument();
   });
@@ -16,7 +22,11 @@ describe('ErrorButton', () => {
       .spyOn(console, 'error')
       .mockImplementation(() => {});
 
-    render(<ErrorButton />);
+    render(
+      <Provider store={store}>
+        <ErrorButton />
+      </Provider>
+    );
 
     const button = screen.getByTestId('error-btn');
 

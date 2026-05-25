@@ -1,14 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-
-import About from '../components/pages/about';
 import { MemoryRouter } from 'react-router';
+import About from '../components/pages/about/about';
+import { ThemeProvider } from '../providers/theme-provider';
 
 describe('About', () => {
   it('renders page sections', () => {
     render(
       <MemoryRouter>
-        <About />
+        <ThemeProvider>
+          <About />
+        </ThemeProvider>
       </MemoryRouter>
     );
 
@@ -34,7 +36,9 @@ describe('About', () => {
   it('renders technology stack items', () => {
     render(
       <MemoryRouter>
-        <About />
+        <ThemeProvider>
+          <About />
+        </ThemeProvider>
       </MemoryRouter>
     );
 
@@ -52,7 +56,9 @@ describe('About', () => {
   it('renders developer card', () => {
     render(
       <MemoryRouter>
-        <About />
+        <ThemeProvider>
+          <About />
+        </ThemeProvider>
       </MemoryRouter>
     );
 

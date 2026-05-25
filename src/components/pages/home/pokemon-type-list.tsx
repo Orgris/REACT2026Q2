@@ -1,4 +1,4 @@
-import type { PokemonType } from '../api/search-api-types';
+import type { PokemonType } from '../../../api/search-api-types';
 
 const TYPE_COLORS: Record<string, string> = {
   fire: 'border-orange-400/40 bg-orange-400/10 text-orange-400',
