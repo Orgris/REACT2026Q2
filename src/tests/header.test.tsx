@@ -17,16 +17,4 @@ describe('Button', () => {
       /rs school.*pokédex/i
     );
   });
-
-  it('renders subtitle text', () => {
-    render(
-      <MemoryRouter>
-        <ThemeProvider>
-          <Header />
-        </ThemeProvider>
-      </MemoryRouter>
-    );
-
-    expect(screen.getByText(/gotta catch 'em all!/i)).toBeInTheDocument();
-  });
 });

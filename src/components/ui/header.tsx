@@ -7,28 +7,23 @@ export function Header() {
 
   return (
     <header className="flex justify-between gap-3 rounded-b-lg border border-t-0 border-[var(--border)] bg-[var(--bg)] p-6">
-      <div className="flex">
-        <div>
-          <h1 className="my-5 block flex">
-            <span className="block bg-[var(--rss)] px-5 font-extrabold text-[var(--rss-text)]">
+      <div className="flex items-center justify-center gap-5">
+        <div className="flex items-center justify-center">
+          <h1 className="!m-0 my-5 flex items-center">
+            <span className="bg-[var(--rss)] px-5 text-4xl leading-tight font-extrabold text-[var(--rss-text)]">
               RS School
             </span>
             <span
-              className="block pl-5 text-[var(--rss)] [-webkit-text-stroke:10px_var(--pokemon-blue)] [paint-order:stroke_fill] [text-stroke:10px_var(--pokemon-blue)]"
+              className="-mt-5 block pl-5 text-4xl text-[var(--rss)] [-webkit-text-stroke:10px_var(--pokemon-blue)] [paint-order:stroke_fill] [text-stroke:10px_var(--pokemon-blue)]"
               style={{ fontFamily: 'Pokemon Solid' }}
             >
               Pokédex
             </span>
           </h1>
         </div>
-        <p className="self-end text-start">Gotta Catch &apos;Em All!</p>
       </div>
-      <div className="flex items-center justify-center gap-6">
-        <Button className="capitalize" onClick={toggleTheme}>
-          {theme}
-        </Button>
-
-        <div className="flex items-center justify-center gap-2">
+      <div className="flex items-center justify-center gap-10">
+        <div className="flex items-center justify-center gap-4">
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -57,6 +52,9 @@ export function Header() {
             About
           </NavLink>
         </div>
+        <Button className="capitalize" onClick={toggleTheme}>
+          {theme}
+        </Button>
       </div>
     </header>
   );
