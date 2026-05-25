@@ -1,11 +1,12 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { Pokemon } from '../api/search-api-types';
 
 interface SelectedPokemonsState {
-  selectedPokemonIds: number[];
+  selectedPokemonsById: Record<number, Pokemon>;
 }
 
 const initialState: SelectedPokemonsState = {
-  selectedPokemonIds: [],
+  selectedPokemonsById: {},
 };
 
 const selectedPokemonsSlice = createSlice({
@@ -14,22 +15,22 @@ const selectedPokemonsSlice = createSlice({
   initialState,
 
   reducers: {
-    togglePokemonSelection: (state, action: PayloadAction<number>) => {
-      const pokemonId = action.payload;
+    togglePokemonSelection: (state, action: PayloadAction<Pokemon>) => {
+      const pokemon = action.payload;
 
-      const isSelected = state.selectedPokemonIds.includes(pokemonId);
+      const pokemonId = pokemon.id;
+
+      const isSelected = !!state.selectedPokemonsById[pokemonId];
 
       if (isSelected) {
-        state.selectedPokemonIds = state.selectedPokemonIds.filter(
-          (id) => id !== pokemonId
-        );
+        delete state.selectedPokemonsById[pokemonId];
       } else {
-        state.selectedPokemonIds.push(pokemonId);
+        state.selectedPokemonsById[pokemonId] = pokemon;
       }
     },
 
     clearSelection: (state) => {
-      state.selectedPokemonIds = [];
+      state.selectedPokemonsById = {};
     },
   },
 });

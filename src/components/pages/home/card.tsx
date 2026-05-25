@@ -4,7 +4,7 @@ import { Spinner } from '../../ui/spinner';
 import { useNavigate, useSearchParams } from 'react-router';
 import { PokemonTypesList } from './pokemon-type-list';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks/hooks';
-import { selectSelectedPokemonIds } from '../../../app/selectors/selectedPokemonsSelectors';
+import { selectSelectedPokemonsById } from '../../../app/selectors/selectedPokemonsSelectors';
 import { togglePokemonSelection } from '../../../app/selectedPokemonsSlice';
 
 type CardProps = {
@@ -19,13 +19,13 @@ export function Card({ pokemon }: CardProps) {
 
   const dispatch = useAppDispatch();
 
-  const selectedPokemonIds = useAppSelector(selectSelectedPokemonIds);
-  const isSelected = selectedPokemonIds.includes(pokemon.id);
+  const selectedPokemonsById = useAppSelector(selectSelectedPokemonsById);
+  const isSelected = !!selectedPokemonsById[pokemon.id];
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.stopPropagation();
 
-    dispatch(togglePokemonSelection(pokemon.id));
+    dispatch(togglePokemonSelection(pokemon));
   };
 
   const handleOpenDetails = (pokemonId: number) => {
