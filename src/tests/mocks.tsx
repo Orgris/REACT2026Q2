@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 import type { SVGProps } from 'react';
-import type { Pokemon } from '../api/search-api-types';
+import type { Pokemon } from '../types/pokemon';
 
 vi.mock('../assets/pokeball.svg?react', () => ({
   default: ({ className, ...props }: SVGProps<SVGSVGElement>) => (

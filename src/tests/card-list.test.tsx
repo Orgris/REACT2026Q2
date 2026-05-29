@@ -1,13 +1,13 @@
 import { vi } from 'vitest';
 import { screen, render, waitFor } from '@testing-library/react';
-import { CardList } from '../components/pages/home/card-list';
-import { fetchPokemonList } from '../api/search-api';
+import { CardList } from '../components/card-list/card-list';
 import { mockPokemon, mockPokemon2 } from './mocks';
 import { MemoryRouter } from 'react-router';
-import { store } from '../app/store';
 import { Provider } from 'react-redux';
+import { fetchPokemonList } from '../services/search-api';
+import { store } from '../store';
 
-vi.mock('../api/search-api', () => ({
+vi.mock('../services/search-api', () => ({
   fetchPokemonList: vi.fn(),
 }));
 

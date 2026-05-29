@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ErrorButton } from '../components/ui/error-button';
+import { ErrorButton } from '../components/ui/button/error-button';
 import { ErrorBoundary } from '../components/ui/error-boundary';
 
 const errorBoundary = (

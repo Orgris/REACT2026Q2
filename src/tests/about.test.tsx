@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-import About from '../components/pages/about/about';
-import { ThemeProvider } from '../providers/theme-provider';
+import { ThemeProvider } from '../app/providers/theme-provider/theme-provider';
+import About from '../pages/about/about';
 
 describe('About', () => {
   it('renders page sections', () => {

@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router';
-import { Button } from './button';
-import { useTheme } from '../../app/hooks/useTheme';
+import { Button } from './button/button';
+import { useTheme } from '../../hooks/useTheme';
 
 export function Header() {
   const { theme, toggleTheme } = useTheme();

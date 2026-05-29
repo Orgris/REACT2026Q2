@@ -16,6 +16,9 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage"
   },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^2.12.0",
     "@tailwindcss/vite": "^4.2.4",

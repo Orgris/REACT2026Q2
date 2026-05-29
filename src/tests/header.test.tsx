@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { Header } from '../components/ui/header';
 import { MemoryRouter } from 'react-router';
-import { ThemeProvider } from '../providers/theme-provider';
+import { ThemeProvider } from '../app/providers/theme-provider/theme-provider';
 
 describe('Button', () => {
   it('renders header text', () => {

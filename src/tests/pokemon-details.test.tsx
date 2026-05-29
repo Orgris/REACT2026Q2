@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { PokemonDetails } from '../components/pages/home/pokemon-details';
-import { fetchPokemon, fetchDescription } from '../api/search-api';
 import { mockPokemon } from './mocks';
 import { MemoryRouter } from 'react-router';
+import { PokemonDetails } from '../components/pokemon-details/pokemon-details';
+import { fetchDescription, fetchPokemon } from '../services/search-api';
 
-vi.mock('../api/search-api', () => ({
+vi.mock('../services/search-api', () => ({
   fetchPokemon: vi.fn(),
   fetchDescription: vi.fn(),
 }));
