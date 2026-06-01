@@ -16,7 +16,7 @@ export function Home() {
     <ErrorBoundary>
       <Header />
 
-      <div className="flex">
+      <div className="flex grow">
         <main className="flex grow flex-col">
           <Search>
             <SearchForm />

@@ -31,7 +31,7 @@ export function CardList() {
   return (
     <section
       data-testid="card-list"
-      className="flex min-h-110 grow flex-col items-center justify-center gap-8 rounded-lg border border-[var(--border)] bg-[var(--bg)] p-8"
+      className="flex grow flex-col items-center justify-center gap-8 rounded-lg border border-[var(--border)] bg-[var(--bg)] p-8"
     >
       {isFetching && <Spinner className="w-100" />}
 

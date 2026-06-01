@@ -7,8 +7,8 @@ export function About() {
   return (
     <>
       <Header />
-      <main>
-        <section className="flex flex-col items-center justify-center gap-8 rounded-lg border border-[var(--border)] bg-[var(--bg)] p-6 text-left">
+      <main className="flex grow flex-col">
+        <section className="flex grow flex-col items-center justify-center gap-8 rounded-lg border border-[var(--border)] bg-[var(--bg)] p-6 text-left">
           <div className="flex max-w-3/4 flex-col items-center justify-center">
             <h2>About</h2>
 
