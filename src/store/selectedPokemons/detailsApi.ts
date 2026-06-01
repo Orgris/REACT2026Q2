@@ -8,6 +8,7 @@ export const detailsApi = createApi({
   reducerPath: 'detailsApi',
   baseQuery: fetchBaseQuery({ baseUrl: '' }),
   keepUnusedDataFor: CACHE_TTL,
+  tagTypes: ['PokemonDetails'],
 
   endpoints: (builder) => ({
     getPokemonDetails: builder.query<PokemonDetailsData, string>({
@@ -25,6 +26,8 @@ export const detailsApi = createApi({
           };
         }
       },
+      providesTags: (result, error, id) =>
+        result ? [{ type: 'PokemonDetails', id }] : ['PokemonDetails'],
     }),
   }),
 });

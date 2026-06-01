@@ -9,6 +9,7 @@ export const pokemonApi = createApi({
   reducerPath: 'pokemonApi',
   baseQuery: fetchBaseQuery({ baseUrl: '' }),
   keepUnusedDataFor: CACHE_TTL,
+  tagTypes: ['Pokemon'],
 
   endpoints: (builder) => ({
     getPokemons: builder.query<Pokemon[], FetchPokemonsArgs>({
@@ -31,6 +32,8 @@ export const pokemonApi = createApi({
           };
         }
       },
+      providesTags: (result) =>
+        result ? [{ type: 'Pokemon', id: 'LIST' }] : ['Pokemon'],
     }),
   }),
 });
