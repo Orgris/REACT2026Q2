@@ -1,32 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Spinner } from '../ui/spinner';
 import { useNavigate, useSearchParams } from 'react-router';
-import type { PokemonDetailsData } from '../../types/pokemon';
 import { Button } from '../ui/button/button';
-import { fetchPokemon, fetchDescription } from '../../services/search-api';
 import { PokemonTypesList } from '../card-list/pokemon-type-list';
-
-const statLabels: Record<string, string> = {
-  hp: 'HP',
-  attack: 'ATK',
-  defense: 'DEF',
-  'special-attack': 'SpA',
-  'special-defense': 'SpD',
-  speed: 'SPD',
-};
+import { statLabels } from '../../constants/pokemon-stats';
+import { getErrorMessage } from '../../utils/getErrorMessage';
+import { getPokemonImageSrc } from '../../utils/getPokemonImageSrc';
+import { useGetPokemonDetailsQuery } from '../../store/selectedPokemons/detailsApi';
 
 export function PokemonDetails() {
-  const [details, setDetails] = useState<PokemonDetailsData | null>(null);
-
-  const [loading, setLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState(true);
-
-  const [error, setError] = useState<string | null>(null);
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const detailsId = searchParams.get('details');
+
+  const {
+    data: details,
+    isFetching,
+    isError,
+    error,
+  } = useGetPokemonDetailsQuery(detailsId!, {
+    skip: !detailsId,
+  });
+
+  const src = getPokemonImageSrc(details);
 
   const handleClose = () => {
     const params = new URLSearchParams(searchParams);
@@ -43,60 +42,21 @@ export function PokemonDetails() {
     setImageLoading(false);
   };
 
-  useEffect(() => {
-    if (!detailsId) return;
-
-    const getDetails = async (detailsId: string) => {
-      setError(null);
-      setLoading(true);
-      setImageLoading(true);
-
-      try {
-        const pokemonData = await fetchPokemon(
-          `https://pokeapi.co/api/v2/pokemon/${detailsId}`
-        );
-        const description = await fetchDescription(pokemonData.species.url);
-
-        const detailsData: PokemonDetailsData = {
-          ...pokemonData,
-          description,
-        };
-
-        setDetails(detailsData);
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : 'Unexpected error';
-        setError(errorMessage);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getDetails(detailsId);
-  }, [detailsId]);
-
-  let src;
-  if (details) {
-    src =
-      details.sprites.other?.showdown?.front_default ??
-      details.sprites.front_default ??
-      undefined;
-  }
-
   return (
     <aside
       data-testid="aside"
       className="flex min-w-92 flex-col gap-3 rounded-lg border border-[var(--border)] bg-[var(--bg)] p-6"
     >
       <div className="relative sticky top-1/5 flex w-80 flex-col rounded-lg">
-        {loading && (
+        {isFetching && (
           <div className="mt-80">
             <Spinner className="w-80" />
           </div>
         )}
 
-        {error && <div>{error}</div>}
+        {isError && <div>{getErrorMessage(error)}</div>}
 
-        {!loading && !error && details && (
+        {!isFetching && !isError && details && (
           <>
             <Button
               className="absolute right-0 !px-3 !py-1"

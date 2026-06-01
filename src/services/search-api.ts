@@ -1,6 +1,7 @@
 import { BASE_URL, endpoints } from '../constants/api';
 import type {
   Pokemon,
+  PokemonDetailsData,
   PokemonListResponse,
   PokemonSpecies,
 } from '../types/pokemon';
@@ -15,14 +16,14 @@ export const fetchPokemonList = async (
   try {
     if (query !== '') {
       const pokemon = await fetchPokemon(
-        `${BASE_URL}${endpoints.pokemon}/${query + '/'}?limit=${limit}&offset=${offset}`
+        `${BASE_URL}${endpoints.pokemon}${query + '/'}?limit=${limit}&offset=${offset}`
       );
 
       return [pokemon];
     }
 
     const res = await fetch(
-      `${BASE_URL}${endpoints.pokemon}/?limit=${limit}&offset=${offset}`
+      `${BASE_URL}${endpoints.pokemon}?limit=${limit}&offset=${offset}`
     );
     await handleResponse(res, 'pokemon list');
 
@@ -36,6 +37,20 @@ export const fetchPokemonList = async (
         : 'Unknown error while fetching pokemon list'
     );
   }
+};
+
+export const fetchPokemonDetails = async (
+  id: string
+): Promise<PokemonDetailsData> => {
+  const pokemonUrl = `${BASE_URL}${endpoints.pokemon}/${id}/`;
+
+  const pokemonData = await fetchPokemon(pokemonUrl);
+  const description = await fetchDescription(pokemonData.species.url);
+
+  return {
+    ...pokemonData,
+    description,
+  };
 };
 
 export const fetchPokemon = async (url: string): Promise<Pokemon> => {
