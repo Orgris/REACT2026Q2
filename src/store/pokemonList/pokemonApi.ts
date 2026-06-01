@@ -3,10 +3,12 @@ import type { FetchPokemonsArgs, Pokemon } from '../../types/pokemon';
 import { fetchPokemonList } from '../../services/search-api';
 import { LIST_ITEM_LIMIT } from '../../constants/api';
 
+const CACHE_TTL = Number(import.meta.env.VITE_CACHE_TTL_SECONDS) || 30;
+
 export const pokemonApi = createApi({
   reducerPath: 'pokemonApi',
   baseQuery: fetchBaseQuery({ baseUrl: '' }),
-  keepUnusedDataFor: 30,
+  keepUnusedDataFor: CACHE_TTL,
 
   endpoints: (builder) => ({
     getPokemons: builder.query<Pokemon[], FetchPokemonsArgs>({

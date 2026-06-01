@@ -2,10 +2,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { PokemonDetailsData } from '../../types/pokemon';
 import { fetchPokemonDetails } from '../../services/search-api';
 
+const CACHE_TTL = Number(import.meta.env.VITE_CACHE_TTL_SECONDS) || 30;
+
 export const detailsApi = createApi({
   reducerPath: 'detailsApi',
   baseQuery: fetchBaseQuery({ baseUrl: '' }),
-  keepUnusedDataFor: 30,
+  keepUnusedDataFor: CACHE_TTL,
 
   endpoints: (builder) => ({
     getPokemonDetails: builder.query<PokemonDetailsData, string>({
