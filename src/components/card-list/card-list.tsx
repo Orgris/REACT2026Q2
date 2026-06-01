@@ -1,34 +1,24 @@
-import { useEffect } from 'react';
 import { Card } from './card';
 import { Spinner } from '../ui/spinner';
 import { useSearchParams } from 'react-router';
-import {
-  selectError,
-  selectLoading,
-  selectPokemons,
-} from '../../store/pokemonList/pokemonListSelectors';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { fetchPokemons } from '../../store/pokemonList/pokemonListThunk';
 import { Pagination } from './pagination';
+import { useGetPokemonsQuery } from '../../store/pokemonList/pokemonApi';
+import { getErrorMessage } from '../../utils/getErrorMessage';
 
 export function CardList() {
-  const dispatch = useAppDispatch();
-  const pokemons = useAppSelector(selectPokemons);
-  const loading = useAppSelector(selectLoading);
-  const error = useAppSelector(selectError);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('search') ?? '';
   const page = Number(searchParams.get('page')) || 1;
 
-  useEffect(() => {
-    dispatch(
-      fetchPokemons({
-        query,
-        page,
-      })
-    );
-  }, [dispatch, query, page]);
+  const {
+    data: pokemons,
+    isFetching,
+    isError,
+    error,
+  } = useGetPokemonsQuery({
+    query,
+    page,
+  });
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(searchParams);
@@ -43,14 +33,14 @@ export function CardList() {
       data-testid="card-list"
       className="flex min-h-110 grow flex-col items-center justify-center gap-8 rounded-lg border border-[var(--border)] bg-[var(--bg)] p-8"
     >
-      {loading && <Spinner className="w-100" />}
+      {isFetching && <Spinner className="w-100" />}
 
-      {error && <div>{error}</div>}
+      {isError && <div className="error">{getErrorMessage(error)}</div>}
 
-      {!loading && !error && (
+      {!isFetching && !isError && (
         <>
           <div className="flex grow flex-wrap items-center justify-center gap-6">
-            {pokemons.map((pokemon) => (
+            {pokemons?.map((pokemon) => (
               <Card key={pokemon.id} pokemon={pokemon} />
             ))}
           </div>
