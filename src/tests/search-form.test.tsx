@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { SearchForm } from '../components/pages/home/search-form';
+import { SearchForm } from '../components/search/search-form';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 

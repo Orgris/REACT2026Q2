@@ -1,17 +1,21 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-import About from '../components/pages/about/about';
-import { ThemeProvider } from '../providers/theme-provider';
+import { ThemeProvider } from '../app/providers/theme-provider/theme-provider';
+import About from '../pages/about/about';
+import { store } from '../store';
+import { Provider } from 'react-redux';
 
 describe('About', () => {
   it('renders page sections', () => {
     render(
-      <MemoryRouter>
-        <ThemeProvider>
-          <About />
-        </ThemeProvider>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ThemeProvider>
+            <About />
+          </ThemeProvider>
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(
@@ -35,11 +39,13 @@ describe('About', () => {
 
   it('renders technology stack items', () => {
     render(
-      <MemoryRouter>
-        <ThemeProvider>
-          <About />
-        </ThemeProvider>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ThemeProvider>
+            <About />
+          </ThemeProvider>
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByText('React')).toBeInTheDocument();
@@ -55,11 +61,13 @@ describe('About', () => {
 
   it('renders developer card', () => {
     render(
-      <MemoryRouter>
-        <ThemeProvider>
-          <About />
-        </ThemeProvider>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ThemeProvider>
+            <About />
+          </ThemeProvider>
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByText('Orgris')).toBeInTheDocument();

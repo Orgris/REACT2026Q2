@@ -1,10 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import type { Pokemon } from '../api/search-api-types';
-import { Card } from '../components/pages/home/card';
+import type { Pokemon } from '../types/pokemon';
+import { Card } from '../components/card-list/card';
 import { mockPokemon } from './mocks';
 import { MemoryRouter } from 'react-router';
 import { Provider } from 'react-redux';
-import { store } from '../app/store';
+import { store } from '../store';
 
 describe('Card', () => {
   test('renders pokemon info', () => {

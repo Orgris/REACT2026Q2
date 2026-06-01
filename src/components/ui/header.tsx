@@ -1,9 +1,30 @@
-import { NavLink } from 'react-router';
-import { Button } from './button';
-import { useTheme } from '../../app/hooks/useTheme';
+import { NavLink, useSearchParams } from 'react-router';
+import { Button } from './button/button';
+import { useTheme } from '../../hooks/useTheme';
+import { pokemonApi } from '../../store/pokemonList/pokemonApi';
+import { useAppDispatch } from '../../hooks/hooks';
+import { detailsApi } from '../../store/selectedPokemons/detailsApi';
 
 export function Header() {
   const { theme, toggleTheme } = useTheme();
+  const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
+
+  const detailsId = searchParams.get('details');
+
+  const handleListInvalidation = () => {
+    dispatch(pokemonApi.util.invalidateTags([{ type: 'Pokemon', id: 'LIST' }]));
+  };
+
+  const handleSelectedInvalidation = () => {
+    if (detailsId) {
+      dispatch(
+        detailsApi.util.invalidateTags([
+          { type: 'PokemonDetails', id: detailsId },
+        ])
+      );
+    }
+  };
 
   return (
     <header className="flex justify-between gap-3 rounded-b-lg border border-t-0 border-[var(--border)] bg-[var(--bg)] p-6">
@@ -52,9 +73,15 @@ export function Header() {
             About
           </NavLink>
         </div>
-        <Button className="capitalize" onClick={toggleTheme}>
-          {theme}
-        </Button>
+        <div className="flex items-center justify-center gap-4">
+          <Button className="capitalize" onClick={toggleTheme}>
+            {theme}
+          </Button>
+          <Button onClick={handleListInvalidation}>Refresh list</Button>
+          <Button onClick={handleSelectedInvalidation} disabled={!detailsId}>
+            Refresh selected
+          </Button>
+        </div>
       </div>
     </header>
   );

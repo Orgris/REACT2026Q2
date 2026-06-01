@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-import Home from '../components/pages/home/home';
-import { ThemeProvider } from '../providers/theme-provider';
-import { store } from '../app/store';
+import { ThemeProvider } from '../app/providers/theme-provider/theme-provider';
 import { Provider } from 'react-redux';
+import Home from '../pages/home/home';
+import { store } from '../store';
 
 describe('Home', () => {
   it('should render main layout sections', () => {

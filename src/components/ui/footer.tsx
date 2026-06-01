@@ -8,7 +8,7 @@ type FooterProps = {
 export function Footer({ children, className = '' }: FooterProps) {
   return (
     <footer
-      className={`flex items-start justify-start rounded-t-lg border border-b-0 border-[var(--border)] bg-[var(--bg)] p-6 pb-0 ${className}`}
+      className={`flex items-start justify-start rounded-t-lg border border-b-0 border-[var(--border)] bg-[var(--bg)] p-3 ${className}`}
     >
       {children}
     </footer>

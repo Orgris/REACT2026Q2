@@ -1,10 +1,7 @@
-import {
-  fetchPokemon,
-  fetchPokemonList,
-  handleResponse,
-} from '../api/search-api';
-import { getEnglishDescription } from '../api/search-api';
-import type { PokemonSpecies } from '../api/search-api-types';
+import { fetchPokemon, fetchPokemonList } from '../services/search-api';
+import type { PokemonSpecies } from '../types/pokemon';
+import { getEnglishDescription } from '../utils/getEnglishDescription';
+import { handleResponse } from '../utils/handleResponse';
 import { mockPokemon } from './mocks';
 
 describe('getEnglishDescription', () => {
