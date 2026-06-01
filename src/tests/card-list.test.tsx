@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import { fetchPokemonList } from '../services/search-api';
 import { store } from '../store';
-import { pokemonApi } from '../store/pokemonList/pokemonApi'; // Импортируем API для сброса кэша
+import { pokemonApi } from '../store/pokemonList/pokemonApi';
 import { LIST_ITEM_LIMIT } from '../constants/api';
 
 vi.mock('../services/search-api', () => ({
