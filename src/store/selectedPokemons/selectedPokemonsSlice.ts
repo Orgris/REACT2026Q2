@@ -15,18 +15,21 @@ const selectedPokemonsSlice = createSlice({
   initialState,
 
   reducers: {
-    togglePokemonSelection: (state, action: PayloadAction<Pokemon>) => {
+    selectPokemon: (state, action: PayloadAction<Pokemon>) => {
       const pokemon = action.payload;
-
       const pokemonId = pokemon.id;
 
-      const isSelected = !!state.selectedPokemonsById[pokemonId];
+      state.selectedPokemonsById[pokemonId] = pokemon;
+    },
 
-      if (isSelected) {
-        delete state.selectedPokemonsById[pokemonId];
-      } else {
-        state.selectedPokemonsById[pokemonId] = pokemon;
-      }
+    deselectPokemon: (state, action: PayloadAction<number>) => {
+      const pokemonId = action.payload;
+
+      state.selectedPokemonsById = Object.fromEntries(
+        Object.entries(state.selectedPokemonsById).filter(
+          ([key]) => Number(key) !== pokemonId
+        )
+      );
     },
 
     clearSelection: (state) => {
@@ -35,7 +38,7 @@ const selectedPokemonsSlice = createSlice({
   },
 });
 
-export const { togglePokemonSelection, clearSelection } =
+export const { selectPokemon, deselectPokemon, clearSelection } =
   selectedPokemonsSlice.actions;
 
 export default selectedPokemonsSlice.reducer;

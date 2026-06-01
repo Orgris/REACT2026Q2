@@ -4,7 +4,10 @@ import { Spinner } from '../ui/spinner';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { selectSelectedPokemonsById } from '../../store/selectedPokemons/selectedPokemonsSelectors';
-import { togglePokemonSelection } from '../../store/selectedPokemons/selectedPokemonsSlice';
+import {
+  deselectPokemon,
+  selectPokemon,
+} from '../../store/selectedPokemons/selectedPokemonsSlice';
 import { getPokemonImageSrc } from '../../utils/getPokemonImageSrc';
 import { PokemonTypesList } from './pokemon-type-list';
 
@@ -26,7 +29,11 @@ export function Card({ pokemon }: CardProps) {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.stopPropagation();
 
-    dispatch(togglePokemonSelection(pokemon));
+    if (event.target.checked) {
+      dispatch(selectPokemon(pokemon));
+    } else {
+      dispatch(deselectPokemon(pokemon.id));
+    }
   };
 
   const handleOpenDetails = (pokemonId: number) => {
