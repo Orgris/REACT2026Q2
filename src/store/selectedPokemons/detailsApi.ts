@@ -26,7 +26,7 @@ export const detailsApi = createApi({
           };
         }
       },
-      providesTags: (result, error, id) =>
+      providesTags: (result, _error, id) =>
         result ? [{ type: 'PokemonDetails', id }] : ['PokemonDetails'],
     }),
   }),
