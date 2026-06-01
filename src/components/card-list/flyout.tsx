@@ -22,9 +22,9 @@ export function Flyout() {
 
   return (
     <div
-      className={`fixed right-1/5 bottom-0 z-20 flex -translate-x-1/2 flex-col gap-5 rounded-lg border border-[var(--border)] bg-[var(--bg)] p-6 transition duration-300 ${selectedCount ? 'opacity-100' : 'opacity-0'}`}
+      className={`fixed bottom-0 left-1/2 z-20 flex w-fit -translate-x-1/2 gap-5 rounded-lg border-2 border-[var(--border)] bg-[var(--bg)] p-2.5 transition duration-300 ${selectedCount ? 'opacity-100' : 'opacity-0'}`}
     >
-      <div className="flex flex-col gap-2">
+      <div className="flex items-center gap-2">
         <p>Selected pokemons</p>
         <p>{selectedCount}</p>
       </div>
