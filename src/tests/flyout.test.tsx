@@ -4,7 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { mockPokemon } from './mocks';
 import { Flyout } from '../components/card-list/flyout';
 import selectedPokemonsReducer, {
-  togglePokemonSelection,
+  selectPokemon,
 } from '../store/selectedPokemons/selectedPokemonsSlice';
 
 function createTestStore() {
@@ -19,7 +19,23 @@ describe('Flyout', () => {
   test('renders and shows selected pokemons count', () => {
     const store = createTestStore();
 
-    store.dispatch(togglePokemonSelection(mockPokemon));
+    store.dispatch(selectPokemon(mockPokemon));
+
+    render(
+      <Provider store={store}>
+        <Flyout />
+      </Provider>
+    );
+
+    expect(screen.getByText('Selected pokemons')).toBeInTheDocument();
+
+    expect(screen.getByText('1')).toBeInTheDocument();
+  });
+
+  test('renders and shows selected pokemons count', () => {
+    const store = createTestStore();
+
+    store.dispatch(selectPokemon(mockPokemon));
 
     render(
       <Provider store={store}>
@@ -35,7 +51,7 @@ describe('Flyout', () => {
   test('unselect all button clears selected pokemons', () => {
     const store = createTestStore();
 
-    store.dispatch(togglePokemonSelection(mockPokemon));
+    store.dispatch(selectPokemon(mockPokemon));
 
     render(
       <Provider store={store}>
@@ -55,7 +71,7 @@ describe('Flyout', () => {
   test('download button creates csv file', () => {
     const store = createTestStore();
 
-    store.dispatch(togglePokemonSelection(mockPokemon));
+    store.dispatch(selectPokemon(mockPokemon));
 
     const createObjectURLMock = vi
       .spyOn(URL, 'createObjectURL')

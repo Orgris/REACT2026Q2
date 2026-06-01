@@ -7,7 +7,10 @@ type PaginationProps = {
 
 export function Pagination({ page, onPageChange }: PaginationProps) {
   return (
-    <div className="flex items-center justify-center gap-5">
+    <div
+      data-testid="pagination"
+      className="flex items-center justify-center gap-5"
+    >
       <Button
         disabled={page === 1}
         onClick={() => onPageChange(page - 1)}
@@ -15,7 +18,7 @@ export function Pagination({ page, onPageChange }: PaginationProps) {
       >
         Prev
       </Button>
-      <span>{page}</span>
+      <span data-testid="current-page">{page}</span>
       <Button onClick={() => onPageChange(page + 1)}>Next</Button>
     </div>
   );
