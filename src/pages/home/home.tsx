@@ -1,15 +1,7 @@
-import { useState } from 'react';
 import { UncontrolledFrom } from '../../components/forms/uncontrolledFrom';
-import { Button } from '../../components/ui/button';
 import { Modal } from '../../components/ui/modal';
 
 export function Home() {
-  const [showUncontrolledModal, setshowUncontrolledModal] = useState(true);
-
-  const handleUncontrolledClick = () => {
-    setshowUncontrolledModal(true);
-  };
-
   return (
     <main
       className="
@@ -19,15 +11,9 @@ export function Home() {
     >
       <h2>Registration</h2>
       <div className="flex gap-6">
-        <Button onClick={handleUncontrolledClick}>Uncontrolled form</Button>
-        {showUncontrolledModal && (
-          <Modal
-            onClose={() => setshowUncontrolledModal(false)}
-            title={'Register'}
-          >
-            <UncontrolledFrom />
-          </Modal>
-        )}
+        <Modal title={'Register'} buttonContent={'Uncontrolled form'}>
+          <UncontrolledFrom />
+        </Modal>
       </div>
     </main>
   );
