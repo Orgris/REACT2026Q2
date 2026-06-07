@@ -1,44 +1,34 @@
 import { useRef } from 'react';
 import { Button } from '../ui/button';
-
-interface UserData {
-  email: string;
-  password: string;
-  username: string;
-  avatar: File | null;
-  age: number;
-  gender: string;
-  country: string;
-  terms: boolean;
-}
-
-interface FormData extends UserData {
-  confirmPassword: string;
-}
+import { useAppSelector } from '../../hooks/hooks';
+import { selectGenders } from '../../store/user/appSelectors';
+import type { RegisterFormData } from '../../types/types';
+import { getValueFromInput } from '../../utils/getValueFromInput';
+import { useModalContext } from '../../hooks/useModalContext';
 
 export function UncontrolledFrom() {
+  const { handleModalClose } = useModalContext();
+
+  const genders = useAppSelector(selectGenders);
+
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
-  const usernameRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
   const avatarRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
   const genderRef = useRef<HTMLSelectElement>(null);
-  const countryRef = useRef<HTMLSelectElement>(null);
+  const countryRef = useRef<HTMLInputElement>(null);
   const termsRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (event: React.SubmitEvent) => {
     event.preventDefault();
 
-    const getValueFromInput = (
-      ref: React.RefObject<HTMLInputElement | HTMLSelectElement | null>
-    ) => ref.current?.value ?? '';
-
-    const formData: FormData = {
+    const formData: RegisterFormData = {
       email: getValueFromInput(emailRef),
       password: getValueFromInput(passwordRef),
       confirmPassword: getValueFromInput(confirmPasswordRef),
-      username: getValueFromInput(usernameRef),
+      name: getValueFromInput(nameRef),
       avatar: avatarRef.current?.files?.[0] || null,
       age: ageRef.current?.value ? Number(ageRef.current.value) : 18,
       gender: getValueFromInput(genderRef),
@@ -47,16 +37,68 @@ export function UncontrolledFrom() {
     };
 
     console.log('Submitted Data:', formData);
+
+    handleModalClose();
   };
 
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
       <div className="flex flex-col gap-3">
         <div className="flex flex-col">
+          <label htmlFor="name">Name:</label>
+          <input ref={nameRef} name="name" type="text" id="name" />
+        </div>
+
+        <div className="flex flex-col">
           <label htmlFor="email">Email:</label>
           <input ref={emailRef} name="email" type="email" id="email" />
         </div>
 
+        <div className="flex flex-col">
+          <label htmlFor="gender">Gender:</label>
+          <select
+            className="capitalize"
+            ref={genderRef}
+            name="gender"
+            id="gender"
+          >
+            {genders.map((gender) => (
+              <option className="capitalize" key={gender} value={gender}>
+                {gender}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex justify-around">
+          <div className="flex flex-col items-center gap-3">
+            <label htmlFor="age">Age:</label>
+            <input
+              ref={ageRef}
+              name="age"
+              type="number"
+              id="age"
+              min="18"
+              className="w-15"
+            />
+          </div>
+
+          <div className="flex flex-col items-center gap-3">
+            <label htmlFor="terms">Terms & Conditions:</label>
+            <input
+              ref={termsRef}
+              name="terms"
+              type="checkbox"
+              id="terms"
+              className="w-10"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="h-px w-full rounded-lg border-2 border-(--border)"></div>
+
+      <div className="flex flex-col gap-3">
         <div className="flex flex-col">
           <label htmlFor="password">Password:</label>
           <input
@@ -76,62 +118,18 @@ export function UncontrolledFrom() {
             id="confirmPassword"
           />
         </div>
-      </div>
 
-      <div className="h-px w-full rounded-lg border-2 border-(--border)"></div>
-
-      <div className="flex flex-col">
-        <label htmlFor="username">Username:</label>
-        <input ref={usernameRef} name="username" type="text" id="username" />
-      </div>
-
-      <div className="flex flex-col">
-        <label htmlFor="avatar">Avatar:</label>
-        <input ref={avatarRef} name="avatar" type="file" id="avatar" />
-      </div>
-
-      <div className="flex justify-between">
-        <div className="flex flex-col items-center gap-3">
-          <label htmlFor="age">Age:</label>
-          <input
-            ref={ageRef}
-            name="age"
-            type="number"
-            id="age"
-            min="18"
-            className="w-15"
-          />
+        <div className="flex flex-col">
+          <label htmlFor="avatar">Avatar:</label>
+          <input ref={avatarRef} name="avatar" type="file" id="avatar" />
         </div>
 
-        <div className="flex flex-col items-center gap-3">
-          <label htmlFor="gender">Gender:</label>
-          <select ref={genderRef} name="gender" id="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col">
           <label htmlFor="country">Country:</label>
-          <select ref={countryRef} name="country" id="country">
-            <option value="rus">Russia</option>
-            <option value="eng">English</option>
-          </select>
+          <input ref={countryRef} name="country" type="text" id="country" />
         </div>
       </div>
-
       <div className="h-px w-full rounded-lg border-2 border-(--border)"></div>
-
-      <div className="flex gap-3">
-        <label htmlFor="terms">Terms & Conditions:</label>
-        <input
-          ref={termsRef}
-          name="terms"
-          type="checkbox"
-          id="terms"
-          className="w-10"
-        />
-      </div>
 
       <Button className="mx-auto" type="submit">
         Create

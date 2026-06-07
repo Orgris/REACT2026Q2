@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './button';
+import { ModalContext } from '../../hooks/useModalContext';
 
 type ModalProps = {
   title: string;
@@ -109,7 +110,11 @@ export function Modal({ title, buttonContent, children }: ModalProps) {
 
               <div className="h-px w-full rounded-lg border-2 border-(--border)"></div>
 
-              {children}
+              <ModalContext.Provider
+                value={{ handleModalClose: handleModalClose }}
+              >
+                {children}
+              </ModalContext.Provider>
             </div>
           </div>,
           document.body
