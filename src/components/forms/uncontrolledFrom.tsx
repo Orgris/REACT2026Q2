@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import { Button } from '../ui/button';
-import { useAppSelector } from '../../hooks/hooks';
-import { selectGenders } from '../../store/user/appSelectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { selectCountries, selectGenders } from '../../store/user/appSelectors';
+import { submitUserData } from '../../store/user/appSlice';
 import type { RegisterFormData } from '../../types/types';
 import { getValueFromInput } from '../../utils/getValueFromInput';
 import { useModalContext } from '../../hooks/useModalContext';
@@ -9,7 +10,9 @@ import { useModalContext } from '../../hooks/useModalContext';
 export function UncontrolledFrom() {
   const { handleModalClose } = useModalContext();
 
+  const dispatch = useAppDispatch();
   const genders = useAppSelector(selectGenders);
+  const countries = useAppSelector(selectCountries);
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -36,8 +39,7 @@ export function UncontrolledFrom() {
       terms: termsRef.current?.checked || false,
     };
 
-    console.log('Submitted Data:', formData);
-
+    dispatch(submitUserData(formData));
     handleModalClose();
   };
 
@@ -126,9 +128,23 @@ export function UncontrolledFrom() {
 
         <div className="flex flex-col">
           <label htmlFor="country">Country:</label>
-          <input ref={countryRef} name="country" type="text" id="country" />
+          <input
+            className="capitalize"
+            ref={countryRef}
+            list="countries"
+            name="country"
+            type="text"
+            id="country"
+          />
+
+          <datalist id="countries">
+            {countries.map((country) => (
+              <option key={country} value={country} />
+            ))}
+          </datalist>
         </div>
       </div>
+
       <div className="h-px w-full rounded-lg border-2 border-(--border)"></div>
 
       <Button className="mx-auto" type="submit">
