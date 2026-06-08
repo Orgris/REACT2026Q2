@@ -11,6 +11,7 @@ import { useModalContext } from '../../hooks/useModalContext';
 import { CustomProgress } from '../ui/custom-progress';
 import { checkPasswordStrength } from '../../utils/checkPasswordStrength';
 import { fileToBase64 } from '../../utils/fileToBase64';
+import type { RegisterFormData, UserData } from '../../types/types';
 
 export function UncontrolledFrom() {
   const { handleModalClose } = useModalContext();
@@ -26,6 +27,20 @@ export function UncontrolledFrom() {
     event.preventDefault();
 
     const formData = new FormData(event.target);
+    const encodedAvatar = await encodeAvatar(formData.get('avatar'));
+
+    const userFormData: RegisterFormData = {
+      id: users.length,
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+      confirmPassword: formData.get('confirmPassword') as string,
+      name: formData.get('name') as string,
+      age: Number(formData.get('age')),
+      gender: formData.get('gender') as string,
+      country: formData.get('country') as string,
+      terms: formData.get('terms') === 'on',
+      avatar: encodedAvatar,
+    };
 
     handleModalClose();
   };
@@ -45,6 +60,18 @@ export function UncontrolledFrom() {
     const strength = passedCount / totalCount;
 
     setPasswordStrength(strength);
+  };
+
+  const encodeAvatar = async (avatar: FormDataEntryValue | null) => {
+    if (!(avatar instanceof File) || avatar.size === 0) {
+      return undefined;
+    }
+
+    try {
+      return await fileToBase64(avatar);
+    } catch {
+      return undefined;
+    }
   };
 
   return (
