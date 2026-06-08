@@ -16,6 +16,12 @@ export const getRegisterSchema = (countries: string[]) => {
     email: yup
       .string()
       .required('Email is required')
+      .test('has-one-at', 'Must contain exactly one @ symbol', (value) => {
+        if (!value) return false;
+        const atIndex = value.indexOf('@');
+        if (atIndex === -1) return false;
+        return value.indexOf('@', atIndex + 1) === -1;
+      })
       .test('non-empty-local', 'Local part cannot be empty', (value) => {
         if (!value) return false;
         const atIndex = value.indexOf('@');
@@ -32,16 +38,6 @@ export const getRegisterSchema = (countries: string[]) => {
           if (atIndex === -1) return false;
           const domain = value.slice(atIndex + 1);
           return domain.indexOf('.') !== -1;
-        }
-      )
-      .test(
-        'has-one-at',
-        'Email must contain exactly one @ symbol',
-        (value) => {
-          if (!value) return false;
-          const atIndex = value.indexOf('@');
-          if (atIndex === -1) return false;
-          return value.indexOf('@', atIndex + 1) === -1;
         }
       ),
 
