@@ -4,8 +4,8 @@ export const getRegisterSchema = (countries: string[]) => {
   return yup.object().shape({
     name: yup
       .string()
-      .matches(/^[A-ZА-Я]/, 'First letter must be uppercase')
-      .required('Name is required'),
+      .required('Name is required')
+      .matches(/^[A-ZА-Я]/, 'First letter must be uppercase'),
 
     age: yup
       .number()
@@ -16,17 +16,13 @@ export const getRegisterSchema = (countries: string[]) => {
     email: yup
       .string()
       .required('Email is required')
-      .test(
-        'non-empty-local',
-        'Local part (before @) cannot be empty',
-        (value) => {
-          if (!value) return false;
-          const atIndex = value.indexOf('@');
-          if (atIndex === -1) return false;
-          const localPart = value.slice(0, atIndex);
-          return localPart.length > 0;
-        }
-      )
+      .test('non-empty-local', 'Local part cannot be empty', (value) => {
+        if (!value) return false;
+        const atIndex = value.indexOf('@');
+        if (atIndex === -1) return false;
+        const localPart = value.slice(0, atIndex);
+        return localPart.length > 0;
+      })
       .test(
         'domain-has-dot',
         'Domain must contain at least one dot',
@@ -66,7 +62,10 @@ export const getRegisterSchema = (countries: string[]) => {
         return countries.some((c) => c === value);
       }),
 
-    terms: yup.boolean().required('You must accept the terms and conditions'),
+    terms: yup
+      .boolean()
+      .required('You must accept the terms and conditions')
+      .oneOf([true], 'You must accept terms'),
 
     avatar: yup
       .mixed<File>()

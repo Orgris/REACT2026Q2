@@ -1,3 +1,4 @@
+import { ControlledForm } from '../../components/forms/controlledFrom';
 import { UncontrolledFrom } from '../../components/forms/uncontrolledFrom';
 import { Modal } from '../../components/ui/modal';
 import { UserCard } from '../../components/user-card';
@@ -21,7 +22,16 @@ export function Home() {
       >
         <h2 className="m-0 border-b-3 border-(--border) pb-3">Registration</h2>
         <div className="flex gap-6">
-          <Modal title={'Registration'} buttonContent={'Uncontrolled form'}>
+          <Modal
+            title={'Registration controlled'}
+            buttonContent={'Controlled form'}
+          >
+            <ControlledForm />
+          </Modal>
+          <Modal
+            title={'Registration uncontrolled'}
+            buttonContent={'Uncontrolled form'}
+          >
             <UncontrolledFrom />
           </Modal>
         </div>
