@@ -3,7 +3,7 @@ import type { UserData } from '../../types/types';
 import { INITIAL_COUNTRY_LIST } from '../../constants/countries';
 import { INITIAL_GENDER_LIST } from '../../constants/genders';
 
-interface appState {
+export interface appState {
   users: UserData[];
   countries: string[];
   genders: string[];
