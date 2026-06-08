@@ -12,7 +12,7 @@ export const INITIAL_GENDER_LIST: string[] = [
   'secret',
 
   ':3',
-  'apache helicopter',
+  'attack helicopter',
   'fishing boat',
   'a пятёрочка bag',
   'a toaster',

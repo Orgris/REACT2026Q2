@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './button';
 import { ModalContext } from '../../hooks/useModalContext';
+import CloseSvg from '../../assets/close-x.svg?react';
 
 type ModalProps = {
   title: string;
@@ -10,115 +11,79 @@ type ModalProps = {
 };
 
 export function Modal({ title, buttonContent, children }: ModalProps) {
-  const [showModal, setShowModal] = useState(true);
-  const backDropRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const openButtonRef = useRef<HTMLButtonElement>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [modalKey, setModalKey] = useState(0);
 
   useEffect(() => {
-    if (!showModal || !modalRef.current) {
-      return;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    if (isOpen) {
+      dialog.showModal();
+    } else {
+      dialog.close();
     }
+  }, [isOpen]);
 
-    const focusableElements = modalRef.current.querySelectorAll(
-      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
-    );
-    const firstElement = focusableElements[0] as HTMLElement;
-    const lastElement = focusableElements[
-      focusableElements.length - 1
-    ] as HTMLElement;
-
-    firstElement.focus();
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        handleModalClose();
-      }
-      if (event.key === 'Tab') {
-        if (event.shiftKey) {
-          if (document.activeElement === firstElement) {
-            lastElement.focus();
-            event.preventDefault();
-          }
-        } else {
-          if (document.activeElement === lastElement) {
-            firstElement.focus();
-            event.preventDefault();
-          }
-        }
-      }
-    };
-
-    document.body.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.body.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [showModal]);
-
-  function handleModalOpen() {
-    setShowModal(true);
+  function handleOpen() {
+    setIsOpen(true);
   }
 
-  function handleModalClose() {
-    setShowModal(false);
-    openButtonRef.current?.focus();
+  function handleClose() {
+    setIsOpen(false);
+    setModalKey((prev) => prev + 1);
   }
 
   function handleBackdropClick(event: React.MouseEvent) {
-    if (backDropRef.current && event.target === backDropRef.current) {
-      handleModalClose();
+    if (event.target === dialogRef.current) {
+      handleClose();
     }
   }
 
   return (
     <>
-      <Button ref={openButtonRef} onClick={handleModalOpen}>
+      <Button ref={openButtonRef} onClick={handleOpen}>
         {buttonContent}
       </Button>
 
-      {showModal &&
-        createPortal(
-          <div
-            ref={backDropRef}
-            onClick={handleBackdropClick}
-            className="
-              absolute top-1/2 left-1/2 z-100 flex size-full -translate-1/2
-              flex-col items-center justify-center bg-(--bg)/50
-            "
-          >
-            <div
-              ref={modalRef}
-              aria-modal="true"
-              role="dialog"
-              className="
-                flex flex-col gap-6 rounded-lg border-3 border-(--border)
-                bg-(--bg) p-6
-              "
-            >
-              <div className="flex items-center justify-between">
-                <p className="text-xl">{title}</p>
-                <Button
-                  aria-label="Close modal"
-                  className="self-end"
-                  onClick={handleModalClose}
-                >
-                  X
-                </Button>
-              </div>
-
-              <div className="h-px w-full rounded-lg border-2 border-(--border)"></div>
-
-              <ModalContext.Provider
-                value={{ handleModalClose: handleModalClose }}
+      {createPortal(
+        <dialog
+          ref={dialogRef}
+          onClose={handleClose}
+          onClick={handleBackdropClick}
+          className="
+            m-auto rounded-lg border-3 border-(--border) bg-(--bg) p-6
+            backdrop:bg-(--bg)/50
+          "
+        >
+          <div key={modalKey} className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-2xl">{title}</h3>
+              <Button
+                aria-label="Close modal"
+                autoFocus
+                className="
+                  self-end border-(--border) bg-red-500 p-1! text-(--bg)
+                  hover:border-red-600 hover:bg-red-600
+                  active:border-(--text-h)
+                "
+                onClick={handleClose}
               >
-                {children}
-              </ModalContext.Provider>
+                <CloseSvg className="size-4" />
+              </Button>
             </div>
-          </div>,
-          document.body
-        )}
+
+            <div className="h-px w-full rounded-lg border-2 border-(--border)"></div>
+
+            <ModalContext.Provider value={{ handleModalClose: handleClose }}>
+              {children}
+            </ModalContext.Provider>
+          </div>
+        </dialog>,
+        document.body
+      )}
     </>
   );
 }

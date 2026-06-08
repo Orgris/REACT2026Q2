@@ -86,3 +86,7 @@ select {
   transition: all;
   transition-duration: 150ms;
 }
+
+dialog {
+  color: unset;
+}
