@@ -1,5 +1,6 @@
 import { UncontrolledFrom } from '../../components/forms/uncontrolledFrom';
 import { Modal } from '../../components/ui/modal';
+import { UserCard } from '../../components/user-card';
 import { useAppSelector } from '../../hooks/hooks';
 import { selectUsers } from '../../store/user/appSelectors';
 
@@ -20,7 +21,7 @@ export function Home() {
       >
         <h2 className="m-0 border-b-3 border-(--border) pb-3">Registration</h2>
         <div className="flex gap-6">
-          <Modal title={'Register'} buttonContent={'Uncontrolled form'}>
+          <Modal title={'Registration'} buttonContent={'Uncontrolled form'}>
             <UncontrolledFrom />
           </Modal>
         </div>
@@ -33,9 +34,9 @@ export function Home() {
         "
       >
         <h2 className="m-0 w-1/2 border-b-3 border-(--border) pb-3">History</h2>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-6">
           {users.map((user) => (
-            <p key={user.name}>{user.name}</p>
+            <UserCard key={user.id} user={user} />
           ))}
         </div>
       </section>

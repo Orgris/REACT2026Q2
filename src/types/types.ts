@@ -9,8 +9,3 @@ export interface UserData {
   country: string;
   terms: boolean;
 }
-
-export interface RegisterFormData extends Omit<UserData, 'avatar'> {
-  confirmPassword: string;
-  avatar: string | undefined;
-}
