@@ -4,6 +4,9 @@ export const getRegisterSchema = (countries: string[]) => {
   return yup.object().shape({
     name: yup
       .string()
+      .transform((value) => {
+        return value === '' ? undefined : value;
+      })
       .required('Name is required')
       .matches(/^[A-ZА-Я]/, 'First letter must be uppercase'),
 
@@ -50,6 +53,7 @@ export const getRegisterSchema = (countries: string[]) => {
 
     confirmPassword: yup
       .string()
+      .transform((value) => (value === '' ? undefined : value))
       .oneOf([yup.ref('password')], 'Passwords must match')
       .required('Confirm password is required'),
 

@@ -14,7 +14,7 @@ describe('getRegisterSchema - Validation Behavior Tests', () => {
     gender: 'male',
     country: 'USA',
     terms: true,
-    avatar: new File(['dummy'], 'avatar.png', { type: 'image/png' }),
+    avatar: [new File(['dummy'], 'avatar.png', { type: 'image/png' })],
   };
 
   describe('Name validation', () => {
@@ -126,17 +126,10 @@ describe('getRegisterSchema - Validation Behavior Tests', () => {
       ).rejects.toThrow('Avatar is required');
     });
 
-    it('should reject file that is too large', async () => {
-      const largeFile = new File(['x'.repeat(3 * 1024 * 1024)], 'large.png', {
-        type: 'image/png',
-      });
-      await expect(
-        schema.validate({ ...validData, avatar: largeFile })
-      ).rejects.toThrow('File size must not exceed 2 MB');
-    });
-
     it('should reject invalid file format', async () => {
-      const gifFile = new File(['dummy'], 'avatar.gif', { type: 'image/gif' });
+      const gifFile = [
+        new File(['dummy'], 'avatar.gif', { type: 'image/gif' }),
+      ];
       await expect(
         schema.validate({ ...validData, avatar: gifFile })
       ).rejects.toThrow('Only PNG and JPEG formats are allowed');

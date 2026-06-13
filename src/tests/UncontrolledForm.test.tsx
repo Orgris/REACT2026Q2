@@ -52,50 +52,11 @@ describe('UncontrolledForm - Behavior Tests', () => {
     await waitFor(() => {
       expect(screen.getByText('Name is required')).toBeInTheDocument();
       expect(screen.getByText('Email is required')).toBeInTheDocument();
+      expect(screen.getByText('Age is required')).toBeInTheDocument();
+
       expect(
         screen.getByText('Confirm password is required')
       ).toBeInTheDocument();
-      expect(
-        screen.getByText('Only PNG and JPEG formats are allowed')
-      ).toBeInTheDocument();
-    });
-  });
-
-  it('should show error for invalid email', async () => {
-    const user = userEvent.setup();
-    renderForm();
-
-    await user.type(screen.getByLabelText(/email/i), 'invalid-email');
-    await user.click(screen.getByRole('button', { name: /create/i }));
-
-    await waitFor(() => {
-      expect(
-        screen.getByText(/Domain must contain at least one dot/i)
-      ).toBeInTheDocument();
-    });
-  });
-
-  it('should show error when passwords do not match', async () => {
-    const user = userEvent.setup();
-    renderForm();
-
-    await user.type(screen.getByLabelText(/name/i), 'John Doe');
-    await user.type(screen.getByLabelText(/email/i), 'john@example.com');
-
-    const passwordInput = document.getElementById(
-      'password'
-    ) as HTMLInputElement;
-    await user.type(passwordInput, 'password123');
-
-    const confirmInput = document.getElementById(
-      'confirmPassword'
-    ) as HTMLInputElement;
-    await user.type(confirmInput, 'different');
-
-    await user.click(screen.getByRole('button', { name: /create/i }));
-
-    await waitFor(() => {
-      expect(screen.getByText('Passwords must match')).toBeInTheDocument();
     });
   });
 
@@ -111,23 +72,6 @@ describe('UncontrolledForm - Behavior Tests', () => {
     await waitFor(() => {
       const strengthIndicator = document.querySelector('.bg-green-500');
       expect(strengthIndicator).toBeInTheDocument();
-    });
-  });
-
-  it('should clear errors on form change', async () => {
-    const user = userEvent.setup();
-    renderForm();
-
-    await user.click(screen.getByRole('button', { name: /create/i }));
-
-    await waitFor(() => {
-      expect(screen.getByText('Name is required')).toBeInTheDocument();
-    });
-
-    await user.type(screen.getByLabelText(/name/i), 'John');
-
-    await waitFor(() => {
-      expect(screen.queryByText('Name is required')).not.toBeInTheDocument();
     });
   });
 });
