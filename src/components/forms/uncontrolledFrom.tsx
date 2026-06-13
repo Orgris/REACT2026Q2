@@ -27,44 +27,39 @@ export function UncontrolledFrom() {
   const countries = useAppSelector(selectCountries);
   const users = useAppSelector(selectUsers);
 
-  const handleSubmit = async (event: React.SubmitEvent) => {
+  const schema = getRegisterSchema(countries);
+
+  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const schema = getRegisterSchema(countries);
-
-    const dataToValidate = {
-      name: formData.get('name') || undefined,
-      age: formData.get('age') || undefined,
-      email: formData.get('email') || undefined,
-      password: formData.get('password') || undefined,
-      confirmPassword: formData.get('confirmPassword') || undefined,
-      gender: formData.get('gender') || undefined,
-      country: formData.get('country') || undefined,
-      terms: formData.get('terms') === 'on' || undefined,
-      avatar: formData.get('avatar') || undefined,
+    const formValues = {
+      name: (event.currentTarget.elements.namedItem('name') as HTMLInputElement)
+        ?.value,
+      age: event.currentTarget.age?.value,
+      email: event.currentTarget.email?.value,
+      password: event.currentTarget.password?.value,
+      confirmPassword: event.currentTarget.confirmPassword?.value,
+      gender: event.currentTarget.gender?.value,
+      country: event.currentTarget.country?.value,
+      terms: event.currentTarget.terms?.checked,
+      avatar: event.currentTarget.avatar?.files,
     };
 
     try {
-      await schema.validate(dataToValidate, { abortEarly: false });
+      await schema.validate(formValues, { abortEarly: false });
 
-      const avatarFile = dataToValidate.avatar as File;
+      const avatarFile = formValues.avatar as File;
       const encodedAvatar = await encodeAvatar(avatarFile);
-
-      if (!encodedAvatar) {
-        setErrors({ avatar: 'Image processing error' });
-        return;
-      }
 
       const validatedUserData: UserData = {
         id: users.length,
-        email: dataToValidate.email as string,
-        password: dataToValidate.password as string,
-        name: dataToValidate.name as string,
-        age: Number(dataToValidate.age),
-        gender: dataToValidate.gender as string,
-        country: dataToValidate.country as string,
-        terms: dataToValidate.terms as boolean,
+        email: formValues.email,
+        password: formValues.password,
+        name: formValues.name,
+        age: Number(formValues.age),
+        gender: formValues.gender,
+        country: formValues.country,
+        terms: formValues.terms,
         avatar: encodedAvatar,
       };
 
@@ -100,15 +95,17 @@ export function UncontrolledFrom() {
     setPasswordStrength(strength);
   };
 
-  const encodeAvatar = async (avatar: FormDataEntryValue | null) => {
-    if (!(avatar instanceof File) || avatar.size === 0) {
-      return undefined;
+  const encodeAvatar = async (avatar: File | undefined) => {
+    if (!avatar || avatar.size === 0) {
+      setErrors({ avatar: 'Image file size is 0' });
+      return;
     }
 
     try {
       return await fileToBase64(avatar);
     } catch {
-      return undefined;
+      setErrors({ avatar: 'Image processing error' });
+      return;
     }
   };
 
@@ -152,7 +149,7 @@ export function UncontrolledFrom() {
           </label>
         </div>
 
-        <div className="h-full w-px rounded-lg border-2 border-(--border)"></div>
+        <div className="w-px self-stretch rounded-lg border-2 border-(--border)"></div>
 
         <div className="flex min-w-0 flex-1 flex-col">
           <div className="flex flex-col">

@@ -53,12 +53,16 @@ export function Modal({ title, buttonContent, children }: ModalProps) {
           ref={dialogRef}
           onClose={handleClose}
           onClick={handleBackdropClick}
-          className="
-            m-auto rounded-lg border-3 border-(--border) bg-(--bg) p-6
-            backdrop:bg-(--bg)/50
-          "
+          className="m-auto w-full max-w-200"
         >
-          <div key={modalKey} className="flex flex-col gap-3">
+          <div
+            key={modalKey}
+            className="
+              flex flex-col gap-3 rounded-lg border-3 border-(--border)
+              bg-(--bg) p-6
+              backdrop:bg-(--bg)/50
+            "
+          >
             <div className="flex items-center justify-between">
               <h3 className="text-2xl">{title}</h3>
               <Button

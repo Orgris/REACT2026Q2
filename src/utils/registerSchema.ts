@@ -9,9 +9,14 @@ export const getRegisterSchema = (countries: string[]) => {
 
     age: yup
       .number()
+      .transform((_value, originalValue) => {
+        if (originalValue === '') return undefined;
+        const parsed = Number(originalValue);
+        return isNaN(parsed) ? undefined : parsed;
+      })
+      .required('Age is required')
       .typeError('Age must be a number')
-      .min(0, 'Age cannot be negative')
-      .required('Age is required'),
+      .min(0, 'Age cannot be negative'),
 
     email: yup
       .string()
@@ -65,6 +70,9 @@ export const getRegisterSchema = (countries: string[]) => {
 
     avatar: yup
       .mixed<File>()
+      .transform((value) => {
+        return value?.[0];
+      })
       .required('Avatar is required')
       .test('fileSize', 'File size must not exceed 2 MB', (value) => {
         return value ? value.size <= 2 * 1024 * 1024 : false;
