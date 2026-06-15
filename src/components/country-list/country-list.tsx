@@ -1,8 +1,9 @@
 import type { Country } from '../../types';
-import { CountryCard } from '../country-card/country-card';
 import { getPopulationForYear, createYearDataMap } from '../../utils/data-transformers';
 import { useMemo } from 'react';
 import React from 'react';
+import { List, useDynamicRowHeight } from 'react-window';
+import { Row } from './Row';
 
 import styles from './country-list.module.css';
 
@@ -59,17 +60,22 @@ export const CountryList = React.memo(
       [countriesWithDataMap, selectedYear, sortField, sortOrder]
     );
 
+    const rowHeight = useDynamicRowHeight({
+      defaultRowHeight: 120,
+    });
+
     return (
-      <div className={styles.countryList}>
-        {sortedFilteredCountries.map((country) => (
-          <CountryCard
-            key={country.id}
-            country={country}
-            selectedYear={selectedYear}
-            selectedColumns={selectedColumns}
-          />
-        ))}
-      </div>
+      <List
+        className={styles.countryList}
+        rowComponent={Row}
+        rowCount={sortedFilteredCountries.length}
+        rowProps={{
+          countries: sortedFilteredCountries,
+          selectedYear,
+          selectedColumns,
+        }}
+        rowHeight={rowHeight}
+      />
     );
   }
 );

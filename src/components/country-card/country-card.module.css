@@ -6,6 +6,10 @@
   background-color: white;
 }
 
+.card:last-child {
+  margin-bottom: 0;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
