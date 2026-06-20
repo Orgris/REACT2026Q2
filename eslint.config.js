@@ -6,11 +6,15 @@ import reactPlugin from "eslint-plugin-react";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
 import tseslint from "typescript-eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
+import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
 
 export default defineConfig([
   globalIgnores(["dist"]),
   {
     files: ["**/*.{ts,tsx}"],
+    rules: {
+      'linebreak-style': ['error', 'unix'],
+    },
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -18,10 +22,16 @@ export default defineConfig([
       reactRefresh.configs.vite,
       reactPlugin.configs.flat.recommended,
       reactPlugin.configs.flat["jsx-runtime"],
+      eslintPluginBetterTailwindcss.configs.recommended,
       eslintConfigPrettier,
     ],
     languageOptions: {
       globals: globals.browser,
     },
+    settings: {
+      'better-tailwindcss': {
+        entryPoint: 'src/styles/index.css',
+      },
+    }
   },
 ]);
