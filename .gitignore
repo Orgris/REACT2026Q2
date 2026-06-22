@@ -25,3 +25,7 @@ dist-ssr
 
 coverage
 .vitest
+
+.next
+next-env.d.ts
+dist

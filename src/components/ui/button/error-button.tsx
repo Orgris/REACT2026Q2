@@ -1,17 +1,16 @@
+'use client';
+
+import { useState } from 'react';
 import { Button } from './button';
-import { setError } from '../../../store/errorButton/errorButtonSlice';
-import { hasErrorOccured } from '../../../store/errorButton/errorButtonSelectors';
-import { useAppSelector, useAppDispatch } from '../../../hooks/hooks';
 
 export function ErrorButton() {
-  const errorOccured = useAppSelector(hasErrorOccured);
-  const dispatch = useAppDispatch();
+  const [shouldThrow, setShouldThrow] = useState(false);
 
   const onClickButton = () => {
-    dispatch(setError());
+    setShouldThrow(true);
   };
 
-  if (errorOccured) {
+  if (shouldThrow) {
     throw new Error('Test error');
   }
 

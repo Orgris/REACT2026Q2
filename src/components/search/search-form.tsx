@@ -1,16 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+'use client';
+
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button/button';
-import PokeballIcon from '../../assets/pokeball.svg?react';
-import { useSearchParams } from 'react-router';
+import PokeballIcon from '../../assets/pokeball.svg';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Spinner } from '../ui/spinner';
 
 export function SearchForm() {
   const [storedQuery, setStoredQuery] = useLocalStorage('searchString');
-  const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get('search') ?? '';
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const query = searchParams?.get('search') ?? '';
 
   const [inputValue, setInputValue] = useState(() => query || storedQuery);
-
   const isInitialMount = useRef(true);
 
   useEffect(() => {
@@ -26,12 +29,11 @@ export function SearchForm() {
       return;
     }
 
-    const params = new URLSearchParams(searchParams);
-
+    const params = new URLSearchParams(searchParams?.toString());
     params.set('search', storedQuery);
     params.set('page', '1');
 
-    setSearchParams(params);
+    router.push(`?${params.toString()}`, { scroll: false });
   }, []);
 
   const handleSubmit = (event: React.SubmitEvent) => {
@@ -42,8 +44,7 @@ export function SearchForm() {
     }
 
     const trimmedSearch = inputValue.trim();
-
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams?.toString());
 
     if (trimmedSearch) {
       params.set('search', trimmedSearch);
@@ -53,7 +54,8 @@ export function SearchForm() {
 
     params.set('page', '1');
 
-    setSearchParams(params);
+    router.push(`?${params.toString()}`, { scroll: false });
+
     setStoredQuery(trimmedSearch);
   };
 
@@ -67,16 +69,34 @@ export function SearchForm() {
       className="flex gap-3"
       onSubmit={handleSubmit}
     >
-      <input
-        data-testid="search-input"
-        className="flex-1 rounded-lg border-2 border-[var(--border)] bg-[var(--border)] px-3 py-1 transition-colors hover:border-[var(--accent-border)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
-        type="search"
-        placeholder="Who's that Pokémon?"
-        value={inputValue}
-        onChange={handleChange}
-      />
+      <Suspense
+        fallback={
+          <Spinner
+            className="w-10 text-(--border)"
+            classNameBG="bg-(--bg) border-2 rounded-lg border-(--border)"
+          />
+        }
+      >
+        <input
+          data-testid="search-input"
+          className="
+            flex-1 rounded-lg border-2 border-(--border) bg-(--border) px-3 py-1
+            transition-colors
+            hover:border-(--accent-border)
+            focus-visible:outline-2 focus-visible:outline-(--accent)
+          "
+          type="search"
+          placeholder="Who's that Pokémon?"
+          value={inputValue}
+          onChange={handleChange}
+        />
+      </Suspense>
+
       <Button
-        className="bg-red-400 hover:border-red-500 hover:bg-red-500"
+        className="
+          bg-red-400
+          hover:border-red-500 hover:bg-red-500
+        "
         type="submit"
         data-testid="submit-button"
       >
