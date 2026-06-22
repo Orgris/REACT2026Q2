@@ -45,5 +45,10 @@
     "tryAgain": "Please try again later or refresh the page",
     "reset": "Try Again",
     "refresh": "Refresh"
+  },
+  "Flyout": {
+    "select": "Selected pokemons",
+    "unselect": "Unselect all",
+    "download": "Download"
   }
 }

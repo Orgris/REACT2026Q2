@@ -85,13 +85,14 @@ export default function PokemonDetails() {
                     </div>
                   )}
 
-                  <div className="relative size-25">
+                  <div className="relative size-20">
                     <Image
                       src={src ?? ''}
                       alt={`${details.name} image`}
                       fill
                       onLoad={handleImageLoad}
                       className="object-contain"
+                      sizes="80px"
                     />
                   </div>
                 </div>

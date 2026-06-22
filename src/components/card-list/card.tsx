@@ -90,6 +90,7 @@ export function Card({ pokemon }: CardProps) {
                 fill
                 onLoad={handleImageLoad}
                 className="object-contain"
+                sizes="80px"
               />
             </div>
           </div>
