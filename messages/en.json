@@ -1,0 +1,49 @@
+{
+  "About": {
+    "about": "About",
+    "description": "was created as part of the RS School React course. It demonstrates routing, component architecture, state management, and modern React development practices.",
+    "technologies": "Technologies",
+    "core": "Core",
+    "qt": "Quality & Tooling",
+    "testing": "Testing",
+    "links": "Links",
+    "rss": "Connecting people, growing together, having fun",
+    "rssReact": "Learn modern React development",
+    "repo": "Project Repository",
+    "source": "View source code and implementation",
+    "developedBy": "Developed by"
+  },
+  "Details": {
+    "height": "Height",
+    "weight": "Weight",
+    "abilities": "Abilities",
+    "stats": "Stats",
+    "experience": "Base experience"
+  },
+  "Header": {
+    "about": "About",
+    "home": "Home",
+    "ru": "RU",
+    "en": "EN",
+    "refresh list button": "Refresh list",
+    "refresh selected button": "Refresh selected"
+  },
+  "Search": {
+    "title": "Search your Pokémon!",
+    "subtitle": "Enter a Pokémon name or National Pokédex number.",
+    "placeholder": "Who's that Pokémon?"
+  },
+  "Card": {},
+  "NotFound": {
+    "message": "Sorry we somehow lost you.",
+    "goHome": "Let's go home"
+  },
+  "Footer": {
+    "errorBtn": "Click me!"
+  },
+  "Fallback": {
+    "tryAgain": "Please try again later or refresh the page",
+    "reset": "Try Again",
+    "refresh": "Refresh"
+  }
+}

@@ -1,6 +1,21 @@
-import { LinkCard } from '../../components/link-card/link-card';
+import { setRequestLocale } from 'next-intl/server';
+import { LinkCard } from '../../../components/link-card/link-card';
+import { useTranslations } from 'next-intl';
+import { use } from 'react';
 
-export default function About() {
+type Props = {
+  params: Promise<{
+    locale: string;
+  }>;
+};
+
+export default function About({ params }: Props) {
+  const { locale } = use(params);
+
+  setRequestLocale(locale);
+
+  const t = useTranslations('About');
+
   return (
     <div className="flex grow flex-col">
       <section
@@ -10,7 +25,7 @@ export default function About() {
         "
       >
         <div className="flex max-w-3/4 flex-col items-center justify-center">
-          <h2>About</h2>
+          <h2>{t('about')}</h2>
 
           <p className="text-center">
             <span className="bg-(--rss) px-1 font-extrabold text-(--rss-text)">
@@ -25,14 +40,12 @@ export default function About() {
             >
               Pokédex
             </span>{' '}
-            was created as part of the RS School React course. It demonstrates
-            routing, component architecture, state management, and modern React
-            development practices.
+            {t('description')}
           </p>
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <h2>Technologies</h2>
+          <h2>{t('technologies')}</h2>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <div
               className="
@@ -40,7 +53,7 @@ export default function About() {
                 px-4 py-3
               "
             >
-              <h4>Core</h4>
+              <h4>{t('core')}</h4>
               <ul className="flex flex-wrap gap-2">
                 <li
                   className="
@@ -95,7 +108,7 @@ export default function About() {
                 px-4 py-3
               "
             >
-              <h4>Quality & Tooling</h4>
+              <h4>{t('qt')}</h4>
               <ul className="flex flex-wrap gap-2">
                 <li
                   className="
@@ -132,7 +145,7 @@ export default function About() {
                 px-4 py-3
               "
             >
-              <h4>Testing</h4>
+              <h4>{t('testing')}</h4>
               <ul className="flex flex-wrap gap-2">
                 <li
                   className="
@@ -157,14 +170,14 @@ export default function About() {
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <h2>Links</h2>
+          <h2>{t('links')}</h2>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <LinkCard
               href="https://rs.school/"
               imageSrc="https://rs.school/_next/static/media/rss-logo.c19ce1b4.svg"
               imageAlt="RS School logo"
               title="RS School"
-              description="Connecting people, growing together, having fun"
+              description={t('rss')}
             />
 
             <LinkCard
@@ -172,15 +185,15 @@ export default function About() {
               imageSrc="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
               imageAlt="React logo"
               title="RS School React Course"
-              description="Learn modern React development"
+              description={t('rssReact')}
             />
 
             <LinkCard
               href="https://github.com/Orgris/REACT2026Q2"
               imageSrc="/GitHub_Invertocat_Black.svg"
               imageAlt="GitHub logo"
-              title="Project Repository"
-              description="View source code and implementation"
+              title={t('repo')}
+              description={t('source')}
             />
 
             <div className="w-full"></div>
@@ -191,7 +204,7 @@ export default function About() {
               imageSrc="https://github.com/Orgris.png"
               imageAlt="Orgris avatar"
               title="Orgris"
-              description="Developed by"
+              description={t('developedBy')}
             />
           </div>
         </div>

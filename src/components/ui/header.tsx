@@ -9,14 +9,20 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { Spinner } from './spinner';
+import { useTranslations } from 'next-intl';
+import LanguageSwitcher from './language-switcher';
 
 export function Header() {
+  const t = useTranslations('Header');
+
   const { theme, toggleTheme } = useTheme();
   const dispatch = useAppDispatch();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const detailsId = searchParams?.get('details');
+
+  const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}/, '') || '/';
 
   const handleListInvalidation = () => {
     dispatch(pokemonApi.util.invalidateTags([{ type: 'Pokemon', id: 'LIST' }]));
@@ -32,8 +38,7 @@ export function Header() {
     }
   };
 
-  const isActive = (path: string) => pathname === path;
-
+  const isActive = (path: string) => pathWithoutLocale === path;
   return (
     <header
       className="
@@ -82,7 +87,7 @@ export function Header() {
               }
             `}
           >
-            About
+            {t('about')}
           </Link>
 
           <span>|</span>
@@ -103,18 +108,24 @@ export function Header() {
               }
             `}
           >
-            Home
+            {t('home')}
           </Link>
         </div>
 
         <Suspense fallback={<Spinner className="w-1/15" classNameBG="mx-10" />}>
           <div className="flex items-center justify-center gap-4">
+            <LanguageSwitcher />
+
             <Button className="capitalize" onClick={toggleTheme}>
-              {theme}
+              {theme === 'dark' ? '🔆' : '😎'}
             </Button>
-            <Button onClick={handleListInvalidation}>Refresh list</Button>
+
+            <Button onClick={handleListInvalidation}>
+              {t('refresh list button')}
+            </Button>
+
             <Button onClick={handleSelectedInvalidation} disabled={!detailsId}>
-              Refresh selected
+              {t('refresh selected button')}
             </Button>
           </div>
         </Suspense>

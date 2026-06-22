@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Fallback } from '../components/ui/fallback';
+import { Fallback } from '../../components/ui/fallback';
 
 export default function Error({
   error,

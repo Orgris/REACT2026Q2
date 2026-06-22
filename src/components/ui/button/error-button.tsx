@@ -2,8 +2,11 @@
 
 import { useState } from 'react';
 import { Button } from './button';
+import { useTranslations } from 'next-intl';
 
 export function ErrorButton() {
+  const t = useTranslations('Footer');
+
   const [shouldThrow, setShouldThrow] = useState(false);
 
   const onClickButton = () => {
@@ -16,7 +19,7 @@ export function ErrorButton() {
 
   return (
     <Button data-testid="error-btn" onClick={onClickButton}>
-      Click me!
+      {t('errorBtn')}
     </Button>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { Theme } from '../../../types/theme';
+import type { Theme } from '../../types/theme';
 import { ThemeContext } from './theme-context';
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {

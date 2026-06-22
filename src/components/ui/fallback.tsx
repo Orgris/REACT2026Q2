@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { Button } from './button/button';
 
 type FallbackProps = {
@@ -6,6 +7,8 @@ type FallbackProps = {
 };
 
 export function Fallback({ errorMessage, onReset }: FallbackProps) {
+  const t = useTranslations('Fallback');
+
   const handleRefresh = () => {
     if (onReset) {
       onReset();
@@ -23,9 +26,9 @@ export function Fallback({ errorMessage, onReset }: FallbackProps) {
       "
     >
       <p className="text-2xl font-bold text-(--text-h)">{errorMessage}</p>
-      <p>Please try again later or refresh the page</p>
+      <p>{t('tryAgain')}</p>
       <Button onClick={handleRefresh}>
-        {onReset ? 'Try Again' : 'Refresh'}
+        {onReset ? t('reset') : t('refresh')}
       </Button>
     </div>
   );

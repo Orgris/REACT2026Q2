@@ -6,8 +6,11 @@ import PokeballIcon from '../../assets/pokeball.svg';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Spinner } from '../ui/spinner';
+import { useTranslations } from 'next-intl';
 
 export function SearchForm() {
+  const t = useTranslations('Search');
+
   const [storedQuery, setStoredQuery] = useLocalStorage('searchString');
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -86,7 +89,7 @@ export function SearchForm() {
             focus-visible:outline-2 focus-visible:outline-(--accent)
           "
           type="search"
-          placeholder="Who's that Pokémon?"
+          placeholder={t('placeholder')}
           value={inputValue}
           onChange={handleChange}
         />

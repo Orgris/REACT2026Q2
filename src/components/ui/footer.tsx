@@ -1,11 +1,10 @@
-import type { ReactNode } from 'react';
+import { ErrorButton } from './button/error-button';
 
 type FooterProps = {
   className?: string;
-  children?: ReactNode;
 };
 
-export function Footer({ children, className = '' }: FooterProps) {
+export function Footer({ className = '' }: FooterProps) {
   return (
     <footer
       className={`
@@ -14,7 +13,7 @@ export function Footer({ children, className = '' }: FooterProps) {
         ${className}
       `}
     >
-      {children}
+      <ErrorButton />
     </footer>
   );
 }

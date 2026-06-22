@@ -1,12 +1,12 @@
 'use client';
 
-import { CardList } from '../components/card-list/card-list';
-import { Flyout } from '../components/card-list/flyout';
-import { Search } from '../components/search/search';
-import { SearchForm } from '../components/search/search-form';
-import { ErrorBoundary } from '../components/ui/error-boundary';
+import { CardList } from '../../components/card-list/card-list';
+import { Flyout } from '../../components/card-list/flyout';
+import { Search } from '../../components/search/search';
+import { SearchForm } from '../../components/search/search-form';
+import { ErrorBoundary } from '../../components/ui/error-boundary';
 import { Suspense } from 'react';
-import { Spinner } from '../components/ui/spinner';
+import { Spinner } from '../../components/ui/spinner';
 
 export function Home() {
   return (

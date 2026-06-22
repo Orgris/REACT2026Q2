@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { type ReactNode } from 'react';
 
 type SearchProps = {
@@ -5,6 +6,8 @@ type SearchProps = {
 };
 
 export function Search(props: SearchProps) {
+  const t = useTranslations('Search');
+
   return (
     <div
       data-testid="search"
@@ -14,8 +17,8 @@ export function Search(props: SearchProps) {
       "
     >
       <div>
-        <h2>Search your Pokémon!</h2>
-        <p>Enter a Pokémon name or National Pokédex number.</p>
+        <h2>{t('title')}</h2>
+        <p>{t('subtitle')}</p>
       </div>
       {props.children}
     </div>

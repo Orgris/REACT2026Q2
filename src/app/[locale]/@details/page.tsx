@@ -1,16 +1,19 @@
 'use client';
 
 import { Suspense, useState } from 'react';
-import { statLabels } from '../../constants/pokemon-stats';
-import { getErrorMessage } from '../../utils/getErrorMessage';
-import { getPokemonImageSrc } from '../../utils/getPokemonImageSrc';
-import { useGetPokemonDetailsQuery } from '../../store/selectedPokemons/detailsApi';
-import { Spinner } from '../../components/ui/spinner';
-import { PokemonTypesList } from '../../components/card-list/pokemon-type-list';
-import { Button } from '../../components/ui/button/button';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { PokemonTypesList } from '../../../components/card-list/pokemon-type-list';
+import { Button } from '../../../components/ui/button/button';
+import { Spinner } from '../../../components/ui/spinner';
+import { statLabels } from '../../../constants/pokemon-stats';
+import { useGetPokemonDetailsQuery } from '../../../store/selectedPokemons/detailsApi';
+import { getErrorMessage } from '../../../utils/getErrorMessage';
+import { getPokemonImageSrc } from '../../../utils/getPokemonImageSrc';
+import { useTranslations } from 'next-intl';
 
 export default function PokemonDetails() {
+  const t = useTranslations('Details');
+
   const [imageLoading, setImageLoading] = useState(true);
 
   const router = useRouter();
@@ -101,20 +104,20 @@ export default function PokemonDetails() {
 
                 <div className="flex justify-center gap-10">
                   <div>
-                    <p className="text-sm">Height</p>
+                    <p className="text-sm">{t('height')}</p>
 
                     <p>{details.height / 10} m</p>
                   </div>
 
                   <div>
-                    <p className="text-sm">Weight</p>
+                    <p className="text-sm">{t('weight')}</p>
 
                     <p>{details.weight / 10} kg</p>
                   </div>
                 </div>
 
                 <div className="flex flex-col items-center justify-center gap-1">
-                  <p className="text-sm text-(--text-h)">Abilities</p>
+                  <p className="text-sm text-(--text-h)">{t('abilities')}</p>
 
                   <div className="flex flex-wrap gap-1">
                     {details.abilities.map((ability) => (
@@ -132,7 +135,7 @@ export default function PokemonDetails() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <p className="text-sm text-(--text-h)">Stats</p>
+                  <p className="text-sm text-(--text-h)">{t('stats')}</p>
 
                   <div className="flex items-center justify-center gap-3">
                     {details.stats.map((stat) => (
@@ -148,7 +151,7 @@ export default function PokemonDetails() {
                 </div>
 
                 <div>
-                  <p className="text-sm text-(--text-h)">Base experience</p>
+                  <p className="text-sm text-(--text-h)">{t('experience')}</p>
 
                   <p>{details.base_experience}</p>
                 </div>
