@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { Link } from '../../i18n/navigation';
 
 type LinkCardProps = {
   variant?: LinkCardVariant;
@@ -22,7 +23,7 @@ export function LinkCard({
   description,
 }: LinkCardProps) {
   return (
-    <a
+    <Link
       href={href}
       target="_blank"
       rel="noreferrer"
@@ -47,6 +48,7 @@ export function LinkCard({
 
         <p className="text-sm opacity-70">{description}</p>
       </div>
-    </a>
+      {/* </a> */}
+    </Link>
   );
 }

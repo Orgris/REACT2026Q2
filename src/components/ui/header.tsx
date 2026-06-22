@@ -6,11 +6,11 @@ import { pokemonApi } from '../../store/pokemonList/pokemonApi';
 import { useAppDispatch } from '../../hooks/hooks';
 import { detailsApi } from '../../store/selectedPokemons/detailsApi';
 import { usePathname, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import { Suspense } from 'react';
 import { Spinner } from './spinner';
 import { useTranslations } from 'next-intl';
 import LanguageSwitcher from './language-switcher';
+import { Link } from '../../i18n/navigation';
 
 export function Header() {
   const t = useTranslations('Header');
