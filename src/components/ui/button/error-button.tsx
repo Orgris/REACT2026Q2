@@ -1,23 +1,25 @@
+'use client';
+
+import { useState } from 'react';
 import { Button } from './button';
-import { setError } from '../../../store/errorButton/errorButtonSlice';
-import { hasErrorOccured } from '../../../store/errorButton/errorButtonSelectors';
-import { useAppSelector, useAppDispatch } from '../../../hooks/hooks';
+import { useTranslations } from 'next-intl';
 
 export function ErrorButton() {
-  const errorOccured = useAppSelector(hasErrorOccured);
-  const dispatch = useAppDispatch();
+  const t = useTranslations('Footer');
+
+  const [shouldThrow, setShouldThrow] = useState(false);
 
   const onClickButton = () => {
-    dispatch(setError());
+    setShouldThrow(true);
   };
 
-  if (errorOccured) {
+  if (shouldThrow) {
     throw new Error('Test error');
   }
 
   return (
     <Button data-testid="error-btn" onClick={onClickButton}>
-      Click me!
+      {t('errorBtn')}
     </Button>
   );
 }

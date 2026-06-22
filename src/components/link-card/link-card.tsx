@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import { Link } from '../../i18n/navigation';
+
 type LinkCardProps = {
   variant?: LinkCardVariant;
   className?: string;
@@ -20,19 +23,32 @@ export function LinkCard({
   description,
 }: LinkCardProps) {
   return (
-    <a
+    <Link
       href={href}
       target="_blank"
       rel="noreferrer"
-      className={`flex w-fit items-center gap-3 rounded-lg border-2 border-[var(--border)] p-4 transition-all duration-300 hover:bg-white/5 ${className} ${variant === 'personal' ? 'flex-col items-center justify-center text-center' : ''}`}
+      className={`
+        flex w-fit items-center gap-3 rounded-lg border-2 border-(--border) p-4
+        transition-all duration-300
+        hover:bg-(--accent)/5!
+        ${className}
+        ${variant === 'personal' ? `flex-col justify-center text-center` : ''}
+      `}
     >
-      <img src={imageSrc} alt={imageAlt} className="h-10 w-10 object-contain" />
+      <Image
+        className="size-10 object-contain"
+        src={imageSrc}
+        width={10}
+        height={10}
+        alt={imageAlt}
+      />
 
       <div>
         <h3 className="font-semibold">{title}</h3>
 
         <p className="text-sm opacity-70">{description}</p>
       </div>
-    </a>
+      {/* </a> */}
+    </Link>
   );
 }

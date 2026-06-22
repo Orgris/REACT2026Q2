@@ -3,7 +3,7 @@ import type { FetchPokemonsArgs, Pokemon } from '../../types/pokemon';
 import { fetchPokemonList } from '../../services/search-api';
 import { LIST_ITEM_LIMIT } from '../../constants/api';
 
-const CACHE_TTL = Number(import.meta.env.VITE_CACHE_TTL_SECONDS) || 30;
+const CACHE_TTL = Number(process.env.NEXT_PUBLIC_CACHE_TTL_SECONDS) || 30;
 
 export const pokemonApi = createApi({
   reducerPath: 'pokemonApi',

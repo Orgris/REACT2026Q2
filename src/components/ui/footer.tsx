@@ -1,16 +1,19 @@
-import type { ReactNode } from 'react';
+import { ErrorButton } from './button/error-button';
 
 type FooterProps = {
   className?: string;
-  children?: ReactNode;
 };
 
-export function Footer({ children, className = '' }: FooterProps) {
+export function Footer({ className = '' }: FooterProps) {
   return (
     <footer
-      className={`flex items-start justify-start rounded-t-lg border border-b-0 border-[var(--border)] bg-[var(--bg)] p-3 ${className}`}
+      className={`
+        flex items-start justify-start rounded-t-lg border border-b-0
+        border-(--border) bg-(--bg) p-3
+        ${className}
+      `}
     >
-      {children}
+      <ErrorButton />
     </footer>
   );
 }

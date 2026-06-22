@@ -9,9 +9,3 @@ export const selectSelectedPokemons = createSelector(
 
   (selectedPokemonsById) => Object.values(selectedPokemonsById)
 );
-
-export const selectSelectedPokemonsCount = createSelector(
-  [selectSelectedPokemonsById],
-
-  (selectedPokemonsById) => Object.keys(selectedPokemonsById).length
-);

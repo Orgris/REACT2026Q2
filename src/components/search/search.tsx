@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { type ReactNode } from 'react';
 
 type SearchProps = {
@@ -5,14 +6,19 @@ type SearchProps = {
 };
 
 export function Search(props: SearchProps) {
+  const t = useTranslations('Search');
+
   return (
     <div
       data-testid="search"
-      className="flex flex-col gap-2 rounded-lg border border-[var(--border)] bg-[var(--bg)] p-6 text-left"
+      className="
+        flex flex-col gap-2 rounded-lg border border-(--border) bg-(--bg) p-6
+        text-left
+      "
     >
       <div>
-        <h2>Search your Pokémon!</h2>
-        <p>Enter a Pokémon name or National Pokédex number.</p>
+        <h2>{t('title')}</h2>
+        <p>{t('subtitle')}</p>
       </div>
       {props.children}
     </div>
