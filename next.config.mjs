@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: 'github.com',
         pathname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: 'raw.githubusercontent.com',
+        pathname: '/PokeAPI/sprites/**',
+      },
     ],
   },
   turbopack: {

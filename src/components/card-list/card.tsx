@@ -12,6 +12,7 @@ import {
 import { getPokemonImageSrc } from '../../utils/getPokemonImageSrc';
 import { PokemonTypesList } from './pokemon-type-list';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
 type CardProps = {
   pokemon: Pokemon;
@@ -82,11 +83,15 @@ export function Card({ pokemon }: CardProps) {
               </div>
             )}
 
-            <img
-              src={src}
-              alt={`${pokemon.name} image`}
-              onLoad={handleImageLoad}
-            />
+            <div className="relative size-20">
+              <Image
+                src={src ?? ''}
+                alt={`${pokemon.name} image`}
+                fill
+                onLoad={handleImageLoad}
+                className="object-contain"
+              />
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <p className="text-sm opacity-70">

@@ -10,6 +10,7 @@ import { useGetPokemonDetailsQuery } from '../../../store/selectedPokemons/detai
 import { getErrorMessage } from '../../../utils/getErrorMessage';
 import { getPokemonImageSrc } from '../../../utils/getPokemonImageSrc';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 export default function PokemonDetails() {
   const t = useTranslations('Details');
@@ -84,11 +85,15 @@ export default function PokemonDetails() {
                     </div>
                   )}
 
-                  <img
-                    src={src}
-                    alt={`${details.name} image`}
-                    onLoad={handleImageLoad}
-                  />
+                  <div className="relative size-25">
+                    <Image
+                      src={src ?? ''}
+                      alt={`${details.name} image`}
+                      fill
+                      onLoad={handleImageLoad}
+                      className="object-contain"
+                    />
+                  </div>
                 </div>
                 <div className="flex flex-col gap-1">
                   <p className="opacity-70">
